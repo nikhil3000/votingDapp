@@ -19,6 +19,27 @@ app.get('/', (req, res) => {
     res.send("welcome to node server");
 });
 
+app.get('/getData', (req,res) => {
+    var dummy = 
+        [
+            {
+                "question": "Best startup",
+                "options": [
+                    "Abc" ,"cde", "efg"
+                ]
+            },
+            {
+                "question": "Worst startup",
+                "options": [
+                    "Abc" ,"cde", "efg"
+                ]
+            }
+        ]
+    
+    
+    res.send(dummy);
+}) 
+
 var port = process.env.PORT || 5000;
 // const port = 5000;
 app.listen(port, () => {
