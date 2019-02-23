@@ -9,7 +9,7 @@
     "start-server": "nodemon ./server/index.js",
     "build": "webpack",
     "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/index.js\"",
-    "start-client": "webpack-dev-server"
+    "start-client": "webpack-dev-server --mode=development"
   },
   "dependencies": {
     "babel-cli": "6.24.1",
@@ -19,11 +19,13 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "6.24.1",
     "css-loader": "^2.0.2",
+    "history": "^4.7.2",
     "live-server": "^1.2.1",
     "node-sass": "^4.11.0",
     "normalize.css": "^8.0.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.28.1",

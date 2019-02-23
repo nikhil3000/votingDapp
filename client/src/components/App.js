@@ -1,5 +1,5 @@
 import React from 'react';
-import Poll from './Poll';
+
 
 
 export default class App extends React.Component {
@@ -8,7 +8,6 @@ export default class App extends React.Component {
         return (
             <div>
                 Welcome to React App
-                <Poll />
             </div>
         );
     }
