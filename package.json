@@ -12,6 +12,8 @@
     "start-client": "webpack-dev-server --mode=development"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "aws-sdk": "^2.410.0",
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
     "babel-loader": "7.1.1",
@@ -27,6 +29,7 @@
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1",
     "sass-loader": "^7.1.0",
+    "sendgrid": "^5.2.3",
     "style-loader": "^0.23.1",
     "webpack": "^4.28.1",
     "webpack-dev-server": "^3.1.10"
