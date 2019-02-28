@@ -54,9 +54,41 @@ exports.email = function(to,otp ) {
             return 'err';
         }
         else {
-            // console.log(info);
+            console.log(info.request.body);
             return 'success';
         }
     });
 
 }
+
+
+// app.get('/sendEmail', (req, res) => {
+
+//     var options = {
+//         method: 'POST',
+//         url: 'https://api.sendgrid.com/v3/mail/send',
+//         headers:
+//         {
+//             'content-type': 'application/json',
+//             authorization: 'Bearer 
+//         },
+//         body:
+//         {
+//             personalizations:
+//                 [{
+//                     to: [{ email: 'nikhilyadav3000@gmail.com', name: 'Nikhil Yadav' }],
+//                     subject: 'Hello, World!'
+//                 }],
+//             from: { email: 'manav@indiadappfest.com', name: 'Manav' },
+//             reply_to: { email: 'manav@indiadappfest.com', name: 'manav' },
+//             template_id: 'd-3fcdb17c04be40a89db48026918abbb3'
+//         },
+//         json: true
+//     };
+
+//     request(options, function (error, response, body) {
+//         if (error) throw new Error(error);
+
+//         console.log(body);
+//     });
+// })

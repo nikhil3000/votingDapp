@@ -1,7 +1,96 @@
 import React from 'react';
+import axios from 'axios';
 
-
+var basURL = 'http://localhost:5000/';
 export default class Register extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.emailOTP = this.emailOTP.bind(this);
+        this.checkEmailOTP = this.checkEmailOTP.bind(this);
+        this.SMSOTP = this.SMSOTP.bind(this);
+        this.checkSMSOTP = this.checkSMSOTP.bind(this);
+        this.state = {
+            email: undefined,
+            number: undefined
+        }
+    }
+
+    emailOTP(e) {
+        e.preventDefault();
+        var email = $("#email")[0].value;
+        axios.post(basURL + 'emailOTP', { email: email })
+            .then(response => {
+
+            })
+            .catch(err => {
+                // window.alert('some error occured');
+                console.log(err);
+            })
+    }
+
+    checkEmailOTP(e) {
+        e.preventDefault();
+        var email = $("#email")[0].value;
+        var emailOTP = $("#emailOTP")[0].value;
+        axios.post(basURL + 'checkEmailOTP', { email: email, emailOTP:emailOTP })
+            .then(response => {
+                var result = response.body;
+                if (result) {
+                    window.alert("otp verified");
+                    this.setState({
+                        email: email
+                    })
+                }
+                else {
+                    window.alert("otp invalid");
+                }
+            })
+            .catch(err => {
+                // window.alert('some error occured');
+                console.log(err);
+            })
+    }
+
+    SMSOTP(e) {
+        e.preventDefault();
+        var number = $("#mobile")[0].value;
+        console.log(number);
+        axios.post(basURL + 'smsOTP', { number: number })
+            .then(response => {
+
+            })
+            .catch(err => {
+                // window.alert('some error occured');
+                console.log(err);
+            })
+    }
+
+    checkSMSOTP(e) {
+        e.preventDefault();
+        var number = $("#mobile")[0].value;
+        var mobileOTP = $("#sms")        
+        axios.post(basURL + 'checkEmailOTP', { email: email })
+            .then(response => {
+                var result = response.body;
+                if (result) {
+                    window.alert("otp verified");
+                    this.setState({
+                        email: email
+                    })
+                }
+                else
+                {
+                    window.alert("otp invalid");
+                }
+            })
+            .catch(err => {
+                // window.alert('some error occured');
+                console.log(err);
+            })
+    }
+
+
 
     render() {
         return (
@@ -13,16 +102,16 @@ export default class Register extends React.Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-sm-5">
-                                        <input type="text" className="form-control" name="email" placeholder="Enter your email"></input>
+                                        <input type="text" className="form-control" name="email" id="email" placeholder="Enter your email"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary">Send OTP</button>
+                                        <button className="btn btn-primary" onClick={this.emailOTP}>Send OTP</button>
                                     </div>
                                     <div className="col-sm-3">
-                                        <input type="text" className="form-control" name="otp" placeholder="Email OTP"></input>
+                                        <input type="text" className="form-control" name="Emailotp" id="emailOTP" placeholder="Email OTP"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary">Submit OTP</button>
+                                        <button className="btn btn-primary" onClick={this.checkEmailOTP}>Submit OTP</button>
                                     </div>
                                 </div>
                             </div>
@@ -33,16 +122,16 @@ export default class Register extends React.Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-sm-5">
-                                        <input type="text" className="form-control" name="mobile" placeholder="Enter your Mobile Number"></input>
+                                        <input type="text" className="form-control" name="mobile" id="mobile" placeholder="Enter your Mobile Number"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary">Send OTP</button>
+                                        <button className="btn btn-primary" onClick={this.SMSOTP}>Send OTP</button>
                                     </div>
                                     <div className="col-sm-3">
-                                        <input type="text" className="form-control" name="otp" placeholder="Mobile OTP"></input>
+                                        <input type="text" className="form-control" name="SMSotp" id="SMSotp" placeholder="Mobile OTP"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary">Submit OTP</button>
+                                        <button className="btn btn-primary" onClick={this.checkSMSOTP}>Submit OTP</button>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +159,7 @@ export default class Register extends React.Component {
         )
     }
 }
-{/* <input type="text" class="form-control otp" name="otp" placeholder="Check your inbox for OTP"></input> */}
+{/* <input type="text" class="form-control otp" name="otp" placeholder="Check your inbox for OTP"></input> */ }
 
 
 
