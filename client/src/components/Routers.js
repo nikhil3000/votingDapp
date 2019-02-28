@@ -5,6 +5,7 @@ import App from './App';
 import Poll from './Poll';
 import Register from './Register'; 
 import SubmitVote from './SubmitVote';
+import QuestionsList from './QuestionsList';
 import createHistory from 'history/createBrowserHistory';
 import { root } from 'postcss';
 export const history = createHistory();
@@ -21,6 +22,7 @@ export default class Routers extends React.Component {
                         <Route path="/poll" component={Poll}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/submitVote" component={SubmitVote}/>
+                        <Route path="/questionslist" component={QuestionsList}/>
                     </Switch>
                 </Router>
             </div>

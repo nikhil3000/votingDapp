@@ -1,34 +1,48 @@
 import React from 'react';
+import axios from 'axios';
+
 
 export default class QuestionsList extends React.Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            data: undefined
+        }
     }
+    componentDidMount() {
+        axios('http://localhost:5000/getdata',{
+            method: "get",
+    }).then(response => {
+        console.log(response);
+        this.setState({
+            data: response.data,
+        })
+
+    })
+    
+        }
     render () {
         return (
-            <div>
-            <p>The .table-striped class adds zebra-stripes to a table:</p>            
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
+            <div>            
+            <table className="table table-striped">
+            <thead>
+            <tr>
+            <th>S.No</th>
+            <th>Question</th>
+            <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
     {
-    this.props.question && this.props.question.map ((question,index) =>(
+    this.state.data && this.state.data.map ((data,index) =>(
         <tr>
-        <td>{index}</td>
-        <td>{question}</td>
-        <td>{this.props.count}</td>
+        <td>{index+1}</td>
+        <td>{data.question}</td>
+        <td>{data.count}</td>
         <td><button className="btn btn-primary">Vote</button></td>
       </tr>
     )
-    )
-      
+    ) 
     }
     </tbody>
   </table>
