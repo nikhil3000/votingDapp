@@ -6,4 +6,4 @@ const MobileSchema = new Schema ({
     otp:String
 })
 
-mongoose.model('Mobile',StartupSchema);
+mongoose.model('Mobile',MobileSchema);
