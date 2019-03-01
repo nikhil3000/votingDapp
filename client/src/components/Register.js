@@ -33,7 +33,7 @@ export default class Register extends React.Component {
         e.preventDefault();
         var email = $("#email")[0].value;
         var emailOTP = $("#emailOTP")[0].value;
-        axios.post(basURL + 'checkEmailOTP', { email: email, emailOTP:emailOTP })
+        axios.post(basURL + 'checkEmailOTP', { email: email, emailOTP: emailOTP })
             .then(response => {
                 var result = response.body;
                 if (result) {
@@ -69,8 +69,8 @@ export default class Register extends React.Component {
     checkSMSOTP(e) {
         e.preventDefault();
         var number = $("#mobile")[0].value;
-        var mobileOTP = $("#sms")        
-        axios.post(basURL + 'checkEmailOTP', { email: email })
+        var mobileOTP = $("#SMSotp")
+        axios.post(basURL + 'checkSMSotp', { number:number, mobileOTP:mobileOTP })
             .then(response => {
                 var result = response.body;
                 if (result) {
@@ -79,8 +79,7 @@ export default class Register extends React.Component {
                         email: email
                     })
                 }
-                else
-                {
+                else {
                     window.alert("otp invalid");
                 }
             })
