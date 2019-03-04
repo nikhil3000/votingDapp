@@ -9,9 +9,9 @@ const config = require('../config');
 var mongoose = require('mongoose');
 
 //Mongoose connection
-mongoose.connect(config.db.mongoURI,{useNewUrlParser :true})
-.then(()=> console.log("DB connected",config.db.mongoURI))
-.catch(err => console.log(err));
+mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
+    .then(() => console.log("DB connected", config.db.mongoURI))
+    .catch(err => console.log(err));
 
 
 
@@ -30,8 +30,14 @@ app.use(bodyParser.json());
 require('./Models/Email');
 const Email = mongoose.model('Email');
 
+require('./Models/EmailList');
+const EmailList = mongoose.model('EmailList');
+
 require('./Models/Mobile');
 const Mobile = mongoose.model('Mobile');
+
+require('./Models/MobileList');
+const MobileList = mongoose.model('MobileList');
 
 app.get('/sms', (req, res) => {
     utils.sendSMS("435782", "+919868954717", res);
@@ -65,21 +71,38 @@ app.get('/getData', (req, res) => {
 })
 
 
-app.post('/emailOTP', (req,res) => {
+app.post('/emailOTP', (req, res) => {
     console.log(req.body);
     console.log("else");
-            const otp = Math.floor(100000 + Math.random() * 900000)
-            utils.email(req.body.email, otp.toString());
-            const newEmail = new Email(
-                {
-                    email: req.body.email,
-                    otp: otp
+    const otp = Math.floor(100000 + Math.random() * 900000)
+    utils.email(req.body.email, otp.toString());
+
+    try {
+        Email.findOne({ email: req.body.email })
+            .then(emailobj => {
+                if (emailobj) {
+                    emailobj.otp = otp;
+                    emailobj.save();
                 }
-            );
-            newEmail.save()
+                else {
+                    const newEmail = new Email(
+                        {
+                            email: req.body.email,
+                            otp: otp
+                        }
+                    );
+                    newEmail.save();
+                }
+                console.log("email saved");
+            })
+        
+    }
+    catch (e) {
+        console.log("email not saved", e);
+    }
 })
 
-app.post('/smsOTP', (req,res) => {
+app.post('/smsOTP', (req, res) => {
     console.log(req.body);
     console.log("else");
     const otp = Math.floor(100000 + Math.random() * 900000)
@@ -91,6 +114,98 @@ app.post('/smsOTP', (req,res) => {
         }
     );
     newMobile.save()
+})
+
+app.post('/checkEmailOtp', (req, res) => {
+    console.log("check Email otp");
+    Email.findOne({ email: req.body.email })
+        .then(obj => {
+            if (obj) {
+                console.log("now we will check otp");
+                console.log("obj otp",obj.otp);
+                console.log("req otp",req.body.emailOTP);
+                if (obj.otp == req.body.emailOTP) {
+                    console.log("otp verified");
+                    EmailList.findOne({ email: req.body.email })
+                        .then(emailfound => {
+                            if (emailfound)
+                                res.send("Email already exists");
+                            else {
+                                const newEmailList = new EmailList(
+                                    {
+                                        email: req.body.email
+                                    }
+                                );
+
+                                try {
+                                    newEmailList.save()
+                                }
+                                catch (e) {
+                                    console.log(e);
+                                }
+                                res.send("Successfully registered");
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+
+                }
+            }
+            else {
+                res.send("Resend OTP?")
+
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+})
+
+app.post('/checkSMSotp', (req, res) => {
+    console.log("check Mobile otp");
+    Mobile.findOne({ mobile: req.body.number })
+        .then(obj => {
+            if (obj) {
+                console.log("now we will check otp");
+                console.log("obj otp",obj.otp);
+                console.log("req otp",req.body.mobileOTP);
+                if (obj.otp == req.body.mobileOTP) {
+                    console.log("otp verified");
+                    EmailList.findOne({ mobile: req.body.number })
+                        .then(mobilefound => {
+                            if (mobilefound)
+                                res.send("Mobile number already exists");
+                            else {
+                                const newMobileList = new MobileList(
+                                    {
+                                        mobile: req.body.number
+                                    }
+                                );
+
+                                try {
+                                    newMobileList.save()
+                                }
+                                catch (e) {
+                                    console.log(e);
+                                }
+                                res.send("Successfully registered");
+                            }
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+
+                }
+            }
+            else {
+                res.send("Resend OTP?")
+
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        })
 })
 
 var port = process.env.PORT || 5000;
