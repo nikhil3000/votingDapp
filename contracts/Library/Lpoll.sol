@@ -1,15 +1,15 @@
 pragma solidity ^0.5.1;
 
-import "./Storage.sol";
+import "../Storage.sol";
 
 library Lpoll {
-    function callVoterExist(address _storageContract, bytes32 voterHash) public view returns (bool)
+    function callVoterExist(address _storageContract, string memory voterHash) public view returns (bool)
     {
         return  Store(_storageContract).voterExist(voterHash);
     }
     
-    function callAddVoter(address _storageContract, bytes32 voterHash) public view
+    function callAddVoter(address _storageContract, string memory voterHash) public
     {
-        Store(store).addVoter(voterHash); 
+        Store(_storageContract).addVoter(voterHash); 
     }
 }

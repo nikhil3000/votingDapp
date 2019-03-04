@@ -6,8 +6,8 @@ import './Library/Lpoll.sol';
 contract Poll {
     using Lpoll for address;
     string private question;
-    mapping(bytes32=>uint) pollList;
-    mapping(bytes32=>uint) options;
+    mapping(string=>uint) pollList;
+    mapping(string=>uint) options;
     address private store;
     
     constructor (string memory _question, address _store) public
@@ -16,7 +16,7 @@ contract Poll {
         store = _store;
     }
     
-    function addOptions(bytes32 option) public
+    function addOptions(string memory option) public
     {
         options[option] = 0;
     }
@@ -26,7 +26,7 @@ contract Poll {
         return question;
     }
     
-    function vote(bytes32 option, bytes32 voterHash) public
+    function vote(string memory option, string memory voterHash) public
     {
         // require(Store(store).voterExist(voterHash));
        require(store.callVoterExist(voterHash));
