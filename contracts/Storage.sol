@@ -3,13 +3,13 @@ pragma solidity ^0.5.1;
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 contract Store is Ownable{
     
-   mapping(bytes32=>uint) private voterList;
+   mapping(string=>uint) private voterList;
     
-     function addVoter(bytes32 voter) public onlyOwner {
+     function addVoter(string memory voter) public onlyOwner {
         voterList[voter]++;
     }
     
-     function voterExist(bytes32 voter) internal view returns(bool) {
+     function voterExist(string memory voter) public view returns(bool) {
         if(voterList[voter]>0)
             return true;
         else
