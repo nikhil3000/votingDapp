@@ -107,13 +107,29 @@ app.post('/smsOTP', (req, res) => {
     console.log("else");
     const otp = Math.floor(100000 + Math.random() * 900000)
     utils.sendSMS(otp.toString(), req.body.number);
-    const newMobile = new Mobile(
-        {
-            mobile: req.body.number,
-            otp: otp
-        }
-    );
-    newMobile.save()
+    try {
+        Mobile.findOne({ mobile: req.body.number })
+            .then(mobobj => {
+                if (mobobj) {
+                    mobobj.otp = otp;
+                    mobobj.save();
+                }
+                else {
+                    const newMobile = new Mobile(
+                        {
+                            mobile: req.body.number,
+                            otp: otp
+                        }
+                    );
+                    newMobile.save();
+                }
+                console.log("mobile saved");
+            })
+        
+    }
+    catch (e) {
+        console.log("mobile not saved", e);
+    }
 })
 
 app.post('/checkEmailOtp', (req, res) => {
@@ -164,6 +180,7 @@ app.post('/checkEmailOtp', (req, res) => {
 
 app.post('/checkSMSotp', (req, res) => {
     console.log("check Mobile otp");
+    console.log(req.body.number);
     Mobile.findOne({ mobile: req.body.number })
         .then(obj => {
             if (obj) {
@@ -172,7 +189,7 @@ app.post('/checkSMSotp', (req, res) => {
                 console.log("req otp",req.body.mobileOTP);
                 if (obj.otp == req.body.mobileOTP) {
                     console.log("otp verified");
-                    EmailList.findOne({ mobile: req.body.number })
+                    MobileList.findOne({ mobile: req.body.number })
                         .then(mobilefound => {
                             if (mobilefound)
                                 res.send("Mobile number already exists");
