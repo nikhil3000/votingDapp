@@ -5,6 +5,7 @@ import App from './App';
 import Poll from './Poll';
 import Register from './Register'; 
 import SubmitVote from './SubmitVote';
+import QuestionsList from './QuestionsList';
 import createHistory from 'history/createBrowserHistory';
 import Web3Test from './web3';
 import { root } from 'postcss';
@@ -23,6 +24,7 @@ export default class Routers extends React.Component {
                         <Route path="/register" component={Register}/>
                         <Route path="/submitVote" component={SubmitVote}/>
                         <Route path="/web3" component={Web3Test}/> 
+                        <Route path="/questionslist" component={QuestionsList}/>
                     </Switch>
                 </Router>
             </div>

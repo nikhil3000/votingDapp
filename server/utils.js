@@ -22,7 +22,7 @@ sns.setSMSAttributes(setTransactionalSMSParams, function (err, data) {
 })
 
 
-exports.sendSMS = function(otp, number,res){
+exports.sendSMS = function(otp, number){
     var params = {
         Message: otp, /* required */
         PhoneNumber: number,
@@ -30,11 +30,11 @@ exports.sendSMS = function(otp, number,res){
     sns.publish(params, function (err, data) {
         if (err) {
             console.log(err, err.stack);
-            res.send(false);
+            //res.send(false);
         }
         else {
             console.log(data);
-            res.send(true);
+            //res.send(true);
         }
     })
 }
@@ -50,11 +50,12 @@ exports.email = function(to,otp ) {
 
     sgMail.send(mailOptions, function (err, info) {
         if (err) {
-            console.log(err.response.body);
+            console.log('err');
+            console.log(err);
             return 'err';
         }
         else {
-            console.log(info.request.body);
+            console.log('success');
             return 'success';
         }
     });
