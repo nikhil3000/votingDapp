@@ -16,6 +16,7 @@ app.use(function (req, res, next) {
 });
 
 
+
 app.get('/sms', (req, res) => {
     utils.sendSMS("435782", "+919868954717", res);
 });

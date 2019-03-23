@@ -15,12 +15,17 @@ contract Voterfactory is Ownable {
     }
     
     event Print(Poll);
+    event PrintPollAddList(Poll[]);
   
     function createPoll(string memory question) public returns(Poll){
         Poll obj = new Poll(question,storageContract);
         pollAddList.push(obj);
-       emit Print(obj);
+        emit Print(obj);
         return obj;
+    }
+    
+    function getPollAddList() public {
+        emit PrintPollAddList(pollAddList);
     }
     
     function getStorageContract() public view returns (address)

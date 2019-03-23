@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "serve": "live-server public/",
-    "start-server": "nodemon ./server/index.js",
+    "start-server": "nodemon ./server/server.js",
     "build": "webpack",
-    "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/index.js\"",
+    "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/server.js\"",
     "start-client": "webpack-dev-server --mode=development"
   },
   "dependencies": {
@@ -35,6 +35,9 @@
     "sass-loader": "^7.1.0",
     "sendgrid": "^5.2.3",
     "style-loader": "^0.23.1",
+    "uport-connect": "^1.1.4",
+    "uport-credentials": "^1.1.4",
+    "web3": "^1.0.0-beta.48",
     "webpack": "^4.28.1",
     "webpack-dev-server": "^3.1.10"
   },

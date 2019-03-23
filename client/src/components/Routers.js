@@ -6,6 +6,7 @@ import Poll from './Poll';
 import Register from './Register'; 
 import SubmitVote from './SubmitVote';
 import createHistory from 'history/createBrowserHistory';
+import Web3Test from './web3';
 import { root } from 'postcss';
 export const history = createHistory();
 
@@ -21,6 +22,7 @@ export default class Routers extends React.Component {
                         <Route path="/poll" component={Poll}/>
                         <Route path="/register" component={Register}/>
                         <Route path="/submitVote" component={SubmitVote}/>
+                        <Route path="/web3" component={Web3Test}/> 
                     </Switch>
                 </Router>
             </div>
