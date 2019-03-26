@@ -6,6 +6,7 @@ import "./Poll.sol";
 
 contract Voterfactory is Ownable {
 
+    using Lpoll for address;
     address private storageContract;    
     Poll [] pollAddList; 
     
@@ -24,6 +25,10 @@ contract Voterfactory is Ownable {
         return obj;
     }
     
+    function addVoter(string memory hash) public onlyOwner {
+        storageContract.callAddVoter(hash);    
+    }
+    
     function getPollAddList() public {
         emit PrintPollAddList(pollAddList);
     }
@@ -36,5 +41,6 @@ contract Voterfactory is Ownable {
     function setStorageContract(address _store) public onlyOwner {
         storageContract = _store;        
     }
+
 }
 
