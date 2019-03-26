@@ -12,4 +12,4 @@ library Lpoll {
     {
         Store(_storageContract).addVoter(voterHash); 
     }
-}
+} 

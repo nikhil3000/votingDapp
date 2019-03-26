@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import hash from 'object-hash';
+import axios from 'axios';
+
 
 var basURL = 'http://localhost:5000/';
 export default class Register extends React.Component {
@@ -10,12 +13,15 @@ export default class Register extends React.Component {
         this.checkEmailOTP = this.checkEmailOTP.bind(this);
         this.SMSOTP = this.SMSOTP.bind(this);
         this.checkSMSOTP = this.checkSMSOTP.bind(this);
+        this.registerUser = this.registerUser.bind(this);
         this.state = {
             email: undefined,
             number: undefined
         }
     }
 
+    
+    
     emailOTP(e) {
         e.preventDefault();
         var email = $("#email")[0].value;
@@ -95,6 +101,22 @@ export default class Register extends React.Component {
             })
     }
 
+    registerUser(e) {
+        e.preventDefault();
+        var passkey = $("#passKey")[0].value;
+        console.log(passkey);
+        if(this.state.number && this.state.email)
+        {
+        var preHash = this.state.number.toString()+this.state.email.toString()+passkey.toString();
+        var hashedString = hash(preHash);
+        }
+        else{
+            window.alert("OTPS not yet verified");
+        }
+
+
+    }
+
 
 
     render() {
@@ -147,13 +169,13 @@ export default class Register extends React.Component {
                             <div className="container">
                                 <div className="row">
                                     <div className="col-sm-5">
-                                        <input type="text" className="form-control" name="passkey" placeholder="Enter your secret key"></input>
+                                        <input type="text" className="form-control" name="passkey" id="passKey" placeholder="Enter your secret key"></input>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-sm-10"></div>
                                     <div className="col-sm-2">
-                                        <button className="btn-lg btn-success">Register</button>
+                                        <button className="btn-lg btn-success" onClick={this.registerUser}>Register</button>
                                     </div>
                                 </div>
                             </div>

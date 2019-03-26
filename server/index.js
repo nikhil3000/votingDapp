@@ -4,6 +4,7 @@ var request = require("request");
 const fs = require('fs');
 require('dotenv').config();
 const utils = require('./utils');
+const Web3 = require('web3');
 const app = express();
 const config = require('../config');
 var mongoose = require('mongoose');
@@ -12,8 +13,6 @@ var mongoose = require('mongoose');
 mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
     .then(() => console.log("DB connected", config.db.mongoURI))
     .catch(err => console.log(err));
-
-
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -48,6 +47,11 @@ app.get('/email', (req, res) => {
     fs.readFile(__dirname + 'mail.html', 'utf8', function (err, html) {
         utils.email('nikhilyadav3000@gmail.com', "Welcome to idf");
     });
+})
+
+app.post('/addVoter',(req,res)=>{
+    web3 = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
+
 })
 
 app.get('/getData', (req, res) => {
