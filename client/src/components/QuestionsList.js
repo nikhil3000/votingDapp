@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Web3 from 'web3';
+import config from '../../config'
 
 
 export default class QuestionsList extends React.Component {
@@ -10,17 +12,27 @@ export default class QuestionsList extends React.Component {
         }
     }
     componentDidMount() {
-        axios('http://localhost:5000/getdata',{
-            method: "get",
-    }).then(response => {
-        console.log(response);
-        this.setState({
-            data: response.data,
-        })
-
-    })
+    //     axios('http://localhost:5000/getdata',{
+    //         method: "get",
+    // }).then(response => {
+    //     console.log(response);
+    //     this.setState({
+    //         data: response.data,
+    //     })
+    const subscriiption = web3.eth.subscribe(PrintPollAddList, function(error, result){
+        if (!error)
+            console.log("subs"+result);
+    });
+    const myContract = new web3.eth.Contract(config.abi.factoryABI, contractAddresses.voterFactoryAddress);
+    myContract.events.PrintPollAddList(function(error, result){
+        if(!error)
+            console.log("Listen"+result);
+    });
     
-        }
+
+
+    }
+    
     render () {
         return (
             <div>            
