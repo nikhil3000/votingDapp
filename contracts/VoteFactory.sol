@@ -9,30 +9,32 @@ contract Voterfactory is Ownable {
     using Lpoll for address;
     address private storageContract;    
     Poll [] pollAddList; 
+    uint len;
     
     constructor (address _store) public 
     {
         storageContract = _store;
+        len=0;
     }
-    
-    event Print(Poll);
-    event PrintPollAddList(Poll[]);
   
-    function createPoll(string memory question) public returns(Poll){
+    function createPoll(string memory question) public {
         Poll obj = new Poll(question,storageContract);
         pollAddList.push(obj);
-        emit Print(obj);
-        return obj;
+        len++;
     }
     
     function addVoter(string memory hash) public onlyOwner {
         storageContract.callAddVoter(hash);    
     }
     
-    function getPollAddList() public {
-        emit PrintPollAddList(pollAddList);
+    function getPollAddList(uint index) public view returns(Poll){
+        return pollAddList[index];
     }
     
+    function getPollSize() public view returns(uint)
+    {
+        return len;   
+    }
     function getStorageContract() public view returns (address)
     {
         return storageContract;
