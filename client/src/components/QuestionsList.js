@@ -12,7 +12,14 @@ export default class QuestionsList extends React.Component {
         }
     }
     componentDidMount() {
-    
+    var  questions= [];
+    console.log('abc');
+        this.props.factoryContractUport.methods.getPollAddList(0)
+        .call({from:"0xc347d452968877f97587B701fba3a3bD29C56663"},(err,obj)=>{
+            if(!err)
+            console.log(obj);
+            else console.log(err);
+        })
     }
     
     render () {
