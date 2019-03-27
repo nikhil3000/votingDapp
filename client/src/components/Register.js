@@ -20,12 +20,6 @@ export default class Register extends React.Component {
         }
     }
 
-    componentDidMount(){
-        console.log(hash('abc'));
-    }
-
-    
-    
     emailOTP(e) {
         e.preventDefault();
         var email = $("#email")[0].value;
@@ -84,7 +78,7 @@ export default class Register extends React.Component {
         var mobileOTP = $("#SMSotp")[0].value;
         console.log(number);
         console.log(mobileOTP);
-        var obj= { number:number, mobileOTP:mobileOTP }
+        var obj = { number: number, mobileOTP: mobileOTP }
         axios.post(basURL + 'checkSMSotp', obj)
             .then(response => {
                 console.log(response);
@@ -106,19 +100,22 @@ export default class Register extends React.Component {
     }
 
     registerUser(e) {
+
         e.preventDefault();
         var passkey = $("#passKey")[0].value;
         console.log(passkey);
-        if(this.state.number && this.state.email)
-        {
-        var preHash = this.state.number.toString()+this.state.email.toString()+passkey.toString();
-        var hashedString = hash(preHash);
+        if (this.state.number && this.state.email) {
+            var preHash = this.state.number.toString() + this.state.email.toString() + passkey.toString();
+            var hashedString = hash(preHash);
+            axios.post(basURL + 'addVoter', { hashedString: hashedString }, (response) => {
+                console.log(response);
+            })
         }
-        else{
-            window.alert("OTPS not yet verified");
+        else {
+            axios.post(basURL + 'addVoter', { hashedString: 'abcdef' }).then(response => {
+                console.log("response",response);
+            });
         }
-
-
     }
 
 
