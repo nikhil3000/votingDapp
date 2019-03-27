@@ -6,6 +6,10 @@ export default class Poll extends React.Component {
         super(props);
 
     }
+
+    componentDidMount() {
+        
+    }
     render() {
         return  (
             <div>
@@ -15,12 +19,18 @@ export default class Poll extends React.Component {
             {this.props.question}
             <ul>
             {
-            this.props.options && this.props.options.map((option, index) => (
-                <div class="radio">
-                <label><input type="radio" name="optradio" checked>{option}></input></label>
-                </div>
+            var len;
+            this.props.factoryContractUport.methods.numberOfOptions()
+            .call({from:this.props.},(err,len)=>{
 
-            )) 
+            })
+            // this.props.options && this.props.options.map((option, index) => (
+            //     <div class="radio">
+            //     <label><input type="radio" name="optradio" checked>{option}></input></label>
+            //     </div>
+
+            // )) 
+            for(i=0;i<len;i++)
             } 
             </ul>             
             </div>
