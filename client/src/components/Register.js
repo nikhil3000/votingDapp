@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import hash from 'object-hash';
-import axios from 'axios';
 
 
 var basURL = 'http://localhost:5000/';

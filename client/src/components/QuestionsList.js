@@ -19,11 +19,14 @@ export default class QuestionsList extends React.Component {
     //     this.setState({
     //         data: response.data,
     //     })
-    const subscriiption = web3.eth.subscribe(PrintPollAddList, function(error, result){
-        if (!error)
-            console.log("subs"+result);
-    });
-    const myContract = new web3.eth.Contract(config.abi.factoryABI, contractAddresses.voterFactoryAddress);
+    //console.log(process.env.infura);
+    //web3 = new Web3(new Web3.providers.HttpProvider("rinkeby.infura.io/v3/6b455d8a8338421b8e0e2db7d3264419"));
+    web3 = new Web3(new Web3.providers.WebsocketProvider("wss://rinkeby.infura.io/v3/6b455d8a8338421b8e0e2db7d3264419 "));
+    const myContract = new web3.eth.Contract(config.abi.factoryABI, config.contractAddresses.voterFactoryAddress);
+    // const subscription = web3.eth.subscribe(PrintPollAddList, function(error, result){
+    //     if (!error)
+    //         console.log("subs"+result);
+    // });
     myContract.events.PrintPollAddList(function(error, result){
         if(!error)
             console.log("Listen"+result);

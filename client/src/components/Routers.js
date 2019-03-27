@@ -42,7 +42,7 @@ export default class Routers extends React.Component {
                         <Route path="/register" render={()=> <Register history={history} factoryContractUport={this.state.factoryContractUport} />} />
                         <Route path="/submitVote" component={SubmitVote}/>
                         <Route path="/web3" component={Web3Test}/> 
-                        <Route path="/questionslist" component={QuestionsList}/>
+                        <Route path="/questionslist" render={()=> <QuestionsList history={history} factoryContractUport={this.state.factoryContractUport} />} />
                     </Switch>
                 </Router>
             </div>

@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "serve": "live-server public/",
-    "start-server": "nodemon ./server/server.js",
-    "build": "webpack",
+    "start-server": "nodemon ./server/server.js ",
+    "build": "webpack", 
     "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/server.js\"",
-    "start-client": "webpack-dev-server --mode=development"
+    "start-client": "webpack-dev-server --mode=development --env.infura ='rinkeby.infura.io/v3/6b455d8a8338421b8e0e2db7d3264419'"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
