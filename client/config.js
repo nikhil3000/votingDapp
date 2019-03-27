@@ -5,7 +5,7 @@ module.exports = {
     },
     contractAddresses : {
         storeAddress: '0xf3f857c7e9f8a66174934207d457636bbba743eb',
-        voterFactoryAddress: '0xec4c3f61385e66fe100e142dd03b04c790912e4b'
+        voterFactoryAddress: '0x85fd9b1f0a2fbe43eee5f67102b090a283c63fe4'
     }
 }
 

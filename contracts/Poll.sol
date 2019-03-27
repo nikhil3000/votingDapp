@@ -23,6 +23,10 @@ contract Poll {
     {
         options[i++] = option;
     }
+    
+    function numberOfOptions() public view returns(uint){
+        return i;
+    }
 
     function getQuestion() view public returns (string memory) 
     {
