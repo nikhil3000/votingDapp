@@ -6,13 +6,16 @@ require('dotenv').config();
 const utils = require('./utils');
 const Web3 = require('web3');
 const app = express();
-const config = require('../config');
 var mongoose = require('mongoose');
+var config = require('./config');
+const Tx = require('ethereumjs-tx');
+
 
 //Mongoose connection
 mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
     .then(() => console.log("DB connected", config.db.mongoURI))
-    .catch(err => console.log(err));
+    .catch(err => console.log('err'));
+
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -49,10 +52,43 @@ app.get('/email', (req, res) => {
     });
 })
 
-app.post('/addVoter',(req,res)=>{
-    web3 = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
+app.get('/addVoter', (req, res) => {
+    var web3js = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
+    var myAddress = process.env.myAddress;
+    var voterContract = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
+    // console.log(JSON.parse(config.abi.factoryABI));
+    // console.log(config.contractAddresses.voterFactoryAddress);
+    var count;
+    // get transaction count, later will used as nonce
+    web3js.eth.getTransactionCount(myAddress).then(function (v) {
+        console.log("Count: " + v);
+        count = v;
+        var amount = web3js.utils.toHex(1e16);
+        //creating raw tranaction
+        var rawTransaction =
+        {
+            "from": myAddress,
+            "gasPrice": web3js.utils.toHex(20 * 1e9),
+            "gasLimit": web3js.utils.toHex(210000),
+            "to": config.contractAddresses.voterFactoryAddress,
+            "value": "0x0",
+            "data": voterContract.methods['addVoter(string)']('1c457260fe516c5ae59798a03f8382a9ba7657d4').encodeABI(),
+            "nonce": web3js.utils.toHex(count)
+        }
+        console.log(rawTransaction);
+        //creating tranaction via ethereumjs-tx
+        var transaction = new Tx(rawTransaction);
+        //signing transaction with private key
+        transaction.sign(new Buffer(process.env.PrivateKey, 'hex'));
+        //sending transacton via web3js module
+        web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
+            .on('transactionHash', console.log);
 
-})
+        // voterContract.methods.balanceOf(myAddress).call()
+        //     .then(function (balance) { console.log(balance) });
+    })
+    res.send('abc');
+});
 
 app.get('/getData', (req, res) => {
     var dummy =
@@ -100,7 +136,7 @@ app.post('/emailOTP', (req, res) => {
                 }
                 console.log("email saved");
             })
-        
+
     }
     catch (e) {
         console.log("email not saved", e);
@@ -130,7 +166,7 @@ app.post('/smsOTP', (req, res) => {
                 }
                 console.log("mobile saved");
             })
-        
+
     }
     catch (e) {
         console.log("mobile not saved", e);
@@ -143,8 +179,8 @@ app.post('/checkEmailOtp', (req, res) => {
         .then(obj => {
             if (obj) {
                 console.log("now we will check otp");
-                console.log("obj otp",obj.otp);
-                console.log("req otp",req.body.emailOTP);
+                console.log("obj otp", obj.otp);
+                console.log("req otp", req.body.emailOTP);
                 if (obj.otp == req.body.emailOTP) {
                     console.log("otp verified");
                     EmailList.findOne({ email: req.body.email })
@@ -178,7 +214,7 @@ app.post('/checkEmailOtp', (req, res) => {
 
             }
         })
-        .catch(err=>{
+        .catch(err => {
             console.log(err);
         })
 })
@@ -190,8 +226,8 @@ app.post('/checkSMSotp', (req, res) => {
         .then(obj => {
             if (obj) {
                 console.log("now we will check otp");
-                console.log("obj otp",obj.otp);
-                console.log("req otp",req.body.mobileOTP);
+                console.log("obj otp", obj.otp);
+                console.log("req otp", req.body.mobileOTP);
                 if (obj.otp == req.body.mobileOTP) {
                     console.log("otp verified");
                     MobileList.findOne({ mobile: req.body.number })
@@ -225,7 +261,7 @@ app.post('/checkSMSotp', (req, res) => {
 
             }
         })
-        .catch(err=>{
+        .catch(err => {
             console.log(err);
         })
 })

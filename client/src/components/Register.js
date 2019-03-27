@@ -3,6 +3,7 @@ import axios from 'axios';
 import hash from 'object-hash';
 
 
+
 var basURL = 'http://localhost:5000/';
 export default class Register extends React.Component {
 
@@ -17,6 +18,10 @@ export default class Register extends React.Component {
             email: undefined,
             number: undefined
         }
+    }
+
+    componentDidMount(){
+        console.log(hash('abc'));
     }
 
     

@@ -5,7 +5,13 @@ contract Store is Ownable{
     
    mapping(string=>uint) private voterList;
     
-     function addVoter(string memory voter) public onlyOwner {
+     address private factoryAddress;
+     
+     function setFactoryAddress (address _factory) public onlyOwner {
+         factoryAddress = _factory;
+     }
+     function addVoter(string memory voter) public {
+         require(msg.sender==factoryAddress);
         voterList[voter]++;
     }
     
