@@ -9,27 +9,28 @@ import { Connect } from 'uport-connect';
 export default class QuestionsList extends React.Component {
     constructor(props) {
         super(props);
+        this.func1 = this.func1.bind(this);
         this.state = {
             data: undefined
         }
     }
     componentDidMount() {
         var questions = [];
-        const ethAddress =  '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087'
-        this.props.factoryContractUport.methods.getPollSize().call({from:ethAddress},(err,num)=>{
-            if(!err)
-            {
+        this.func1();
+    }
+
+    async func1() {
+
+        const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
+        this.props.factoryContractUport.methods.getPollSize().call({ from: ethAddress }, async (err, num) => {
+            if (!err) {
                 console.log(num);
-                for(var i=0;i<num;i++)
-                {
-                    this.props.factoryContractUport.methods.getPollAddList(i).call({from:ethAddress}, (err,address)=>{
-                        console.log(err);
-                        console.log(address);
-                    })
+                for (var i = 0; i < num; i++) {
+                    var promise = await this.props.factoryContractUport.methods.getPollAddList(i).call({ from: ethAddress })
+                    console.log(promise);
                 }
             }
         })
-        
     }
 
     render() {

@@ -7,11 +7,13 @@
   "scripts": {
     "serve": "live-server public/",
     "start-server": "nodemon ./server/index.js ",
-    "build": "webpack", 
+    "build": "webpack",
     "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/index.js\"",
     "start-client": "webpack-dev-server --mode=development --env.infura ='rinkeby.infura.io/v3/6b455d8a8338421b8e0e2db7d3264419'"
   },
   "dependencies": {
+    "@babel/plugin-transform-regenerator": "^7.4.0",
+    "@babel/polyfill": "^7.4.0",
     "@sendgrid/mail": "^6.3.1",
     "aws-sdk": "^2.410.0",
     "axios": "^0.18.0",

@@ -1,8 +1,10 @@
 const path = require('path');
+require("@babel/polyfill");
+require("@babel/plugin-transform-regenerator");
 
 
 module.exports = {
-    entry: './client/src/app.js',
+    entry: ['@babel/polyfill','./client/src/app.js'],
     output: {
         path: path.join(__dirname,'/client/public'),
         filename: 'bundle.js'
