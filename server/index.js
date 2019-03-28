@@ -52,7 +52,8 @@ app.get('/email', (req, res) => {
     });
 })
 
-app.get('/addVoter', (req, res) => {
+app.post('/addVoter', (req, res) => {
+    console.log(req.body.hashedString);
     var web3js = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
     var myAddress = process.env.myAddress;
     var voterContract = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
@@ -72,7 +73,7 @@ app.get('/addVoter', (req, res) => {
             "gasLimit": web3js.utils.toHex(210000),
             "to": config.contractAddresses.voterFactoryAddress,
             "value": "0x0",
-            "data": voterContract.methods['addVoter(string)']('1c457260fe516c5ae59798a03f8382a9ba7657d4').encodeABI(),
+            "data": voterContract.methods['addVoter(string)'](req.body.hashedString).encodeABI(),
             "nonce": web3js.utils.toHex(count)
         }
         console.log(rawTransaction);
@@ -81,13 +82,22 @@ app.get('/addVoter', (req, res) => {
         //signing transaction with private key
         transaction.sign(new Buffer(process.env.PrivateKey, 'hex'));
         //sending transacton via web3js module
-        web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
-            .on('transactionHash', console.log);
-
-        // voterContract.methods.balanceOf(myAddress).call()
-        //     .then(function (balance) { console.log(balance) });
+        try {
+            web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
+            // .then(response=>{
+            //     console.log(response);
+            //     res.send(response.status);
+            // })
+            .on('transactionHash', function(hash){res.send(hash)});
+        }
+        catch(e)
+        {
+            console.log(e);
+            res.send('Tx not validated');
+        }
+        
     })
-    res.send('abc');
+    // res.send('abc');
 });
 
 app.get('/getData', (req, res) => {
