@@ -15,10 +15,11 @@ export default class Web3Test extends React.Component {
         const web3 = new Web3(provider)
         const abi = [{ "constant": false, "inputs": [{ "name": "_num", "type": "uint256" }], "name": "setNum", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "constant": true, "inputs": [], "name": "getNum", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }];
         const statusContract = new web3.eth.Contract(JSON.parse(config.abi.factoryABI),config.contractAddresses.voterFactoryAddress);
-        statusContract.methods.createPoll("Question uport?").send({from:'0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087'},(err,hash)=>{
-            if(err) {throw err};
-            console.log(hash);
-        })
+        
+        // statusContract.methods.createPoll("Question uport?").send({from:'0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087'},(err,hash)=>{
+        //     if(err) {throw err};
+        //     console.log(hash);
+        // })
     }
 
     render() {

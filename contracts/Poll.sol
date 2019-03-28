@@ -9,7 +9,7 @@ contract Poll {
     //mapping(string=>uint) public options;
     string[] options;
     uint[] votes;
-    uint i=0;
+    uint i;
     
     address private store;
     
@@ -17,11 +17,14 @@ contract Poll {
     {
         question = _question;
         store = _store;
+        i = 0;
     }
     
-    function addOptions(string memory option) public
+    function addOptions(string memory _option) public
     {
-        options[i++] = option;
+        options.push(_option);
+        votes.push(0);
+        i=i+1;
     }
     
     function numberOfOptions() public view returns(uint){
@@ -33,18 +36,22 @@ contract Poll {
         return question;
     }
     
-    function getOptions(uint ind) view public returns (string memory)
+    function getOptions(uint ind) view public returns (string memory,uint)
     {
-        return options[ind];
+        return (options[ind],votes[ind]);
+    }
+    
+    function checkParams(string memory voterHash) public view returns (bool,uint)
+    {
+        return (store.callVoterExist(voterHash),pollList[voterHash] );    
     }
     
     function vote(uint ind, string memory voterHash) public
     {
-        // require(Store(store).voterExist(voterHash));
-       require(store.callVoterExist(voterHash));
+        require(store.callVoterExist(voterHash));
         require(pollList[voterHash]==0);
         pollList[voterHash]++;
-       votes[ind]++;
+        votes[ind]++;
     }
     
 }
