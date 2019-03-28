@@ -22,9 +22,9 @@ export default class QuestionsList extends React.Component {
                 console.log(num);
                 for(var i=0;i<num;i++)
                 {
-                    this.props.factoryContractUport.methods.getPollAddList(i).call({from:ethAddress}, (err,num)=>{
+                    this.props.factoryContractUport.methods.getPollAddList(i).call({from:ethAddress}, (err,address)=>{
                         console.log(err);
-                        console.log(num);
+                        console.log(address);
                     })
                 }
             }
