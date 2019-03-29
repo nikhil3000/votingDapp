@@ -9,7 +9,7 @@
     "start-server": "nodemon ./server/index.js ",
     "build": "webpack",
     "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/index.js\"",
-    "start-client": "webpack-dev-server --mode=development --env.infura ='rinkeby.infura.io/v3/6b455d8a8338421b8e0e2db7d3264419'"
+    "start-client": "webpack-dev-server --mode=development --host 0.0.0.0"
   },
   "dependencies": {
     "@babel/plugin-transform-regenerator": "^7.4.0",

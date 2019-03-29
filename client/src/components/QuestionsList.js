@@ -9,26 +9,32 @@ import { Connect } from 'uport-connect';
 export default class QuestionsList extends React.Component {
     constructor(props) {
         super(props);
-        this.func1 = this.func1.bind(this);
+        
         this.state = {
-            data: undefined
+            questions:undefined
         }
     }
     componentDidMount() {
+        var questionsAddress = [];
         var questions = [];
-        this.func1();
-    }
-
-    async func1() {
-
         const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
         this.props.factoryContractUport.methods.getPollSize().call({ from: ethAddress }, async (err, num) => {
             if (!err) {
                 console.log(num);
                 for (var i = 0; i < num; i++) {
-                    var promise = await this.props.factoryContractUport.methods.getPollAddList(i).call({ from: ethAddress })
-                    console.log(promise);
+                    var address = await this.props.factoryContractUport.methods.getPollAddList(i).call({ from: ethAddress })
+                    console.log(address);
+                    questionsAddress.push(address);
                 }
+
+                for(var i=0;i<num;i++) {
+                const pollContractUport = new this.props.web3.eth.Contract(JSON.parse(config.abi.pollABI),questionsAddress[i]);        
+                   var question = await pollContractUport.methods.getQuestion().call({from:ethAddress})
+                    questions.push(question);
+                    console.log(question);
+                }
+                this.setState({questions:questions});
+
             }
         })
     }
@@ -46,11 +52,11 @@ export default class QuestionsList extends React.Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.data && this.state.data.map((data, index) => (
-                                <tr>
+                            this.state.questions && this.state.questions.map((data, index) => (
+                                <tr key={index}>
                                     <td>{index + 1}</td>
-                                    <td>{data.question}</td>
-                                    <td>{data.count}</td>
+                                    <td>{data}</td>
+                                    {/* <td>{data.count}</td> */}
                                     <td><button className="btn btn-primary">Vote</button></td>
                                 </tr>
                             )
