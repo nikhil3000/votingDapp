@@ -84,18 +84,17 @@ app.post('/addVoter', (req, res) => {
         //sending transacton via web3js module
         try {
             web3js.eth.sendSignedTransaction('0x' + transaction.serialize().toString('hex'))
-            // .then(response=>{
-            //     console.log(response);
-            //     res.send(response.status);
-            // })
-            .on('transactionHash', function(hash){res.send(hash)});
+                // .then(response=>{
+                //     console.log(response);
+                //     res.send(response.status);
+                // })
+                .on('transactionHash', function (hash) { res.send(hash) });
         }
-        catch(e)
-        {
+        catch (e) {
             console.log(e);
             res.send('Tx not validated');
         }
-        
+
     })
     // res.send('abc');
 });
@@ -146,10 +145,11 @@ app.post('/emailOTP', (req, res) => {
                 }
                 console.log("email saved");
             })
-
+        res.send('sent');
     }
     catch (e) {
         console.log("email not saved", e);
+        res.send('error');
     }
 })
 
@@ -188,15 +188,15 @@ app.post('/checkEmailOtp', (req, res) => {
     Email.findOne({ email: req.body.email })
         .then(obj => {
             if (obj) {
-                console.log("now we will check otp");
-                console.log("obj otp", obj.otp);
-                console.log("req otp", req.body.emailOTP);
+                // console.log("now we will check otp");
+                // console.log("obj otp", obj.otp);
+                // console.log("req otp", req.body.emailOTP);
                 if (obj.otp == req.body.emailOTP) {
                     console.log("otp verified");
                     EmailList.findOne({ email: req.body.email })
                         .then(emailfound => {
                             if (emailfound)
-                                res.send("Email already exists");
+                                res.send("AlreadyExists");
                             else {
                                 const newEmailList = new EmailList(
                                     {
@@ -210,17 +210,21 @@ app.post('/checkEmailOtp', (req, res) => {
                                 catch (e) {
                                     console.log(e);
                                 }
-                                res.send("Successfully registered");
+                                res.send("CorrectOTP");
                             }
                         })
                         .catch(err => {
                             console.log(err);
                         })
-
+                }
+                else
+                {
+                    //incorrect otp
+                    res.send("IncorrectOTP");
                 }
             }
             else {
-                res.send("Resend OTP?")
+                res.send("OTPObjNotFound")
 
             }
         })

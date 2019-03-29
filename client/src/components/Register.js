@@ -16,7 +16,9 @@ export default class Register extends React.Component {
         this.registerUser = this.registerUser.bind(this);
         this.state = {
             email: undefined,
-            number: undefined
+            number: undefined,
+            smsOTPSent: false,
+            emailOTPSent: false
         }
     }
 
@@ -25,7 +27,10 @@ export default class Register extends React.Component {
         var email = $("#email")[0].value;
         axios.post(basURL + 'emailOTP', { email: email })
             .then(response => {
-
+                if(response.data=='sent')
+                {
+                    this.setState({emailOTPSent:true});
+                }
             })
             .catch(err => {
                 // window.alert('some error occured');
@@ -40,17 +45,23 @@ export default class Register extends React.Component {
         var emailOTP = $("#emailOTP")[0].value;
         axios.post(basURL + 'checkEmailOTP', { email: email, emailOTP: emailOTP })
             .then(response => {
-                console.log(response);
-                var result = response.body;
-                if (result) {
-                    window.alert("otp verified");
-                    this.setState({
-                        email: email
-                    })
+                switch(response){
+                    case 'AlreadyExists' :
+                    case 'CorrectOTP' :
+                    case 'IncorrectOTP' || 'OTPObjNotFound':
+
                 }
-                else {
-                    window.alert("otp invalid");
-                }
+
+                // var result = response.body;
+                // if (result) {
+                //     window.alert("otp verified");
+                //     this.setState({
+                //         email: email
+                //     })
+                // }
+                // else {
+                //     window.alert("otp invalid");
+                // }
             })
             .catch(err => {
                 // window.alert('some error occured');
@@ -135,13 +146,23 @@ export default class Register extends React.Component {
                                         <input type="text" className="form-control" name="email" id="email" placeholder="Enter your email"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary" onClick={this.emailOTP}>Send OTP</button>
+                                        {
+                                            this.state.emailOTPSent ?
+                                                <button className="btn btn-info" onClick={this.emailOTP}>Resend OTP</button>
+                                                : <button className="btn btn-primary" onClick={this.emailOTP}>Send OTP</button>
+                                        }
                                     </div>
                                     <div className="col-sm-3">
                                         <input type="text" className="form-control" name="Emailotp" id="emailOTP" placeholder="Email OTP"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary" onClick={this.checkEmailOTP}>Submit OTP</button>
+                                        {
+                                            !this.state.email && <button className="btn btn-primary" onClick={this.checkEmailOTP}>Submit OTP</button>
+                                        }
+                                        {
+                                            this.state.email && <i className="fas fa-check" style={{ color: '#008000' }}>Verified</i>
+                                        }
+
                                     </div>
                                 </div>
                             </div>
@@ -155,13 +176,21 @@ export default class Register extends React.Component {
                                         <input type="text" className="form-control" name="mobile" id="mobile" placeholder="Enter your Mobile Number"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary" onClick={this.SMSOTP}>Send OTP</button>
+                                        {this.state.smsOTPSent ?
+                                            <button className="btn btn-info" onClick={this.SMSOTP}>Resend OTP</button>
+                                            : <button className="btn btn-primary" onClick={this.SMSOTP}>Send OTP</button>
+                                        }
                                     </div>
                                     <div className="col-sm-3">
                                         <input type="text" className="form-control" name="SMSotp" id="SMSotp" placeholder="Mobile OTP"></input>
                                     </div>
                                     <div className="col-sm-2">
-                                        <button className="btn btn-primary" onClick={this.checkSMSOTP}>Submit OTP</button>
+                                        {
+                                            !this.state.number && <button className="btn btn-primary" onClick={this.checkSMSOTP}>Submit OTP</button>
+                                        }
+                                        {
+                                            this.state.number && <i className="fas fa-check" style={{ color: '#008000' }}>Verified</i>
+                                        }
                                     </div>
                                 </div>
                             </div>
