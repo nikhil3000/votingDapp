@@ -27,7 +27,7 @@ contract Poll {
         i=i+1;
     }
     
-    function numberOfOptions() public view returns(uint){
+        function numberOfOptions() public view returns(uint){
         return i;
     }
 

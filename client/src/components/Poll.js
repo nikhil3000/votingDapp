@@ -6,6 +6,10 @@ import { Connect } from 'uport-connect';
 export default class Poll extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            question: undefined
+            len: undefined
+        }
 
     }
 
@@ -19,19 +23,37 @@ export default class Poll extends React.Component {
          const ethAddress =  '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087'
             pollContractUport.methods.numberOfOptions()
             .call({from:ethAddress},(err,len)=>{
-                console.log(err);
+                //console.log(err);
                 console.log(len);
+                this.setState({
+                    len:len
+                })
             })
-    }
+         pollContractUport.methods.getQuestion()
+            .call({from:ethAddress},(err,question)=>{
+                //console.log(err);
+                console.log(question);
+                this.setState({
+                    question: question
+                })
+        
+            })
+}
+
     render() {
         return  (
             <div>
 
             <div className="card">
             <div className="card-body">
-            {this.props.question}
+            {this.state.question}
+            {
+            for(int i=0;i<this.state.len;i++)
             <ul>
             {
+                <div class="radio">
+            //     <label><input type="radio" name="optradio" checked>{option}></input></label>
+            //     </div>
 
            
             // this.props.options && this.props.options.map((option, index) => (
@@ -40,10 +62,10 @@ export default class Poll extends React.Component {
             //     </div>
 
             // )) 
-            //for(i=0;i<len;i++)
             }  
 
-            </ul>             
+            </ul>
+            }             
             </div>
             </div>
             </div>

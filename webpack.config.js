@@ -1,6 +1,5 @@
 const path = require('path');
 require("@babel/polyfill");
-require("@babel/plugin-transform-regenerator");
 
 
 module.exports = {
