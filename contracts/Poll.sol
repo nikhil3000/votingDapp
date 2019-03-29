@@ -36,9 +36,14 @@ contract Poll {
         return question;
     }
     
-    function getOptions(uint ind) view public returns (string memory,uint)
+    function getOptions(uint ind) view public returns (string memory)
     {
-        return (options[ind],votes[ind]);
+        return (options[ind]);
+    }
+    
+    function getVotes(uint ind) view public returns (uint)
+    {
+        return (votes[ind]);
     }
     
     function checkParams(string memory voterHash) public view returns (bool,uint)
