@@ -109,11 +109,13 @@ export default class Register extends React.Component {
             var hashedString = hash(preHash);
             axios.post(basURL + 'addVoter', { hashedString: hashedString }, (response) => {
                 console.log(response);
+                this.props.history.push('/questionslist');
+
             })
         }
         else {
             axios.post(basURL + 'addVoter', { hashedString: 'abcdef' }).then(response => {
-                console.log("response",response);
+                console.log("response", response);
             });
         }
     }
