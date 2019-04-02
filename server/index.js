@@ -57,6 +57,7 @@ app.post('/addVoter', (req, res) => {
     console.log(req.body.hashedString);
     var web3js = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
     var myAddress = process.env.myAddress;
+    console.log("my address",myAddress);
     var voterContract = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
     EmailList.findOne({ email: req.body.email })
         .then(emailfound => {
@@ -97,6 +98,7 @@ app.post('/addVoter', (req, res) => {
                                 console.log(e);
                             }
                             var count;
+                            console.log("email and mobile verified");
                             // get transaction count, later will used as nonce
                             web3js.eth.getTransactionCount(myAddress).then(function (v) {
                                 console.log("Count: " + v);
