@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Main</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script type="text/javascript" src="jquery.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+
+	<div class="sidenav">
+    <div class="sidenav-content">
+      <h1 style="font-weight:800;font-size:2.3em;padding:0 18%">Eth Options</h1>
+      <ul style="padding:0">
+				<li>
+						<a href="index.html" >Order Book</a>
+				</li>
+				<li>
+						<a href="book.html" class="active">Order Fill</a>
+				</li>
+				<li>
+						<a href="history.html">Order History</a>
+				</li>
+      </ul>
+    </div>
+	</div>
+
+	<div class="main" style="transform:translateY(10%)">
+    <div class="card" style="margin-top:3%;margin-bottom:4%;width:60%;">
+      <div class="card-header blue">
+        <span>Some Random Form</span>
+      </div>
+			<div class="booking-form">
+				<form style="padding:20px 20px">
+					<div style="margin:5px 10px;color:#00f0ff;font-weight:600;letter-spacing:1px;">Enter Base Token</div><input  type="text" class="input-form" placeholder="........................." name="base_token"/>
+					<div style="margin:40px 10px 5px 10px;color:#00f0ff;font-weight:600;letter-spacing:1px;">Enter Quote Token</div><input  type="text" class="input-form" placeholder="........................." name="quote_token"/>
+					<div style="margin:40px 10px 5px 10px;color:#00f0ff;font-weight:600;letter-spacing:1px;">Enter Strike Price</div><input  type="text" class="input-form" placeholder="........................." name="strike_price"/>
+					<br />
+					<input type="submit" class="submit-btn" value="Haha"/>
+				</form>
+			</div>
+
+    </div>
+
+	</div>
+
+</body>
+
+</html>

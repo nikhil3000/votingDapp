@@ -6284,6 +6284,11 @@ react-dom@^16.7.0:
     prop-types "^15.6.2"
     scheduler "^0.12.0"
 
+react-flash-message@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-flash-message/-/react-flash-message-1.0.2.tgz#c38a3ee4d8f216014c8ae4236cc2350e2cbfff0a"
+  integrity sha1-w4o+5NjyFgFMiuQjbMI1Diy//wo=
+
 react-is@^16.8.1:
   version "16.8.3"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.3.tgz#4ad8b029c2a718fc0cfc746c8d4e1b7221e5387d"

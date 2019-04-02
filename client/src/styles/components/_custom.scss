@@ -1,0 +1,23 @@
+.peacockColor
+{
+    margin:5px 10px;
+    color:#00f0ff;
+    font-weight:600;
+    letter-spacing:1px;
+}
+
+.btn-hollow
+{
+    margin: 2% 0;
+    width: 80%;
+    min-height: 40px;
+    border: 1px solid #00f0ff;
+    border-radius: 5px;
+    font-size: 1em;
+    color: #00f0ff;
+    background-color: rgba(0,0,0,0);
+  }
+.btn-hollow :hover{
+    color: #fff !important;
+    background-color: #00f0ff;
+  }
