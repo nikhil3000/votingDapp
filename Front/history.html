@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Main</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="text/javascript" src="jquery.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+
+  <div class="sidenav">
+    <div class="sidenav-content">
+      <h1 style="font-weight:800;font-size:2.3em;padding:0 18%">Etho Option</h1>
+      <ul style="padding:0">
+        <li>
+          <a href="index.html">Order Book</a>
+        </li>
+        <li>
+          <a href="book.html">Order Fill</a>
+        </li>
+        <li>
+          <a href="history.html" class="active">Order History</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="card" style="margin-top:3%;margin-bottom:4%">
+      <div class="card-header orange" style="background:#0d0f1b">
+        <span>My Orders</span>
+      </div>
+      <div class="table-div">
+        <table cellspacing="0">
+          <tr class="header-tr">
+            <th style="border-radius:10px 0 0 0">No. Of Tokens</th>
+            <th>Base Token</th>
+            <th>Quote</th>
+            <th>Strike Price</th>
+            <th>Premium</th>
+            <th>Expiry</th>
+            <th style="border-radius:0 10px 0 0">Action</th>
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>ZRX</td>
+            <td>WETH</td>
+            <td class="strike">52</td>
+            <td class="premium">12</td>
+            <td>1 day 12 hrs</td>
+            <td class="action-btn">Exercise</td>
+          </tr>
+          <tr>
+            <td>78</td>
+            <td>WETH</td>
+            <td>ZRX</td>
+            <td class="strike">63</td>
+            <td class="premium">15</td>
+            <td>3 days 2 hrs</td>
+            <td class="action-btn">Withdraw</td>
+
+          </tr>
+          <tr>
+            <td>107</td>
+            <td>ZRX</td>
+            <td>WETH</td>
+            <td class="strike">45</td>
+            <td class="premium">12</td>
+            <td>4 days 12 hrs</td>
+            <td class="action-btn">Exercise</td>
+
+
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

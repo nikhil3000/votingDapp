@@ -6,4 +6,4 @@ const EmailSchema = new Schema ({
     otp:String
 })
 
-mongoose.model('Email',EmailSchema);
+mongoose.model('EmailOTP',EmailSchema);

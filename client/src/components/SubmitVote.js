@@ -24,12 +24,16 @@ export default class SubmitVote extends React.Component {
             const pollAbi = [{ "constant": false, "inputs": [{ "name": "ind", "type": "uint256" }, { "name": "voterHash", "type": "string" }], "name": "vote", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "voterHash", "type": "string" }], "name": "checkParams", "outputs": [{ "name": "", "type": "bool" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "numberOfOptions", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "ind", "type": "uint256" }], "name": "getOptions", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_option", "type": "string" }], "name": "addOptions", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getQuestion", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "ind", "type": "uint256" }], "name": "getVotes", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "_question", "type": "string" }, { "name": "_store", "type": "address" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }];
             const pollContractUport = new this.props.web3.eth.Contract(pollAbi, data[0]);
             var len;
-            const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
-            pollContractUport.methods.vote(data[1], hashedString)
-                .send({ from: ethAddress }, (err, hash) => {
+            //const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
+            this.props.web3.eth.getAccounts((err, address)=>{
+                console.log(address);
+                pollContractUport.methods.vote(data[1], hashedString)
+                .send({ from: address[0] }, (err, hash) => {
                     console.log(hash);
 
                 })
+            })
+            
     }
     }
 

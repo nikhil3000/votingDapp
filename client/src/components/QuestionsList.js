@@ -31,7 +31,7 @@ export default class QuestionsList extends React.Component {
                     obj.questionsAddress = address;
                     data.push(obj);
                 }
-
+                console.log(data);
                 for(var i=0;i<num;i++) {
                 const pollContractUport = new this.props.web3.eth.Contract(JSON.parse(config.abi.pollABI),data[i].questionsAddress);        
                    var question = await pollContractUport.methods.getQuestion().call({from:ethAddress})

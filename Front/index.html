@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Main</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script type="text/javascript" src="jquery.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.min.js"></script>
+</head>
+
+<body>
+  <script>
+    function trigger(){
+      console.log('trigger');
+      let ethAddress;
+        web3 = new Web3(web3.currentProvider);
+        console.log(web3);
+        const factoryABI = [{ "constant": true, "inputs": [], "name": "getOrgAccount", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_baseToken", "type": "address" }, { "name": "_quoteToken", "type": "address" }, { "name": "_strikePrice", "type": "uint256" }], "name": "createNewOption", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_newFee", "type": "uint256" }], "name": "changeNewOptionFee", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_orgAddress", "type": "address" }], "name": "setOrgAccount", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "version", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getOptionFee", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "wandTokenAddress", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [{ "name": "_storageAddress", "type": "address" }, { "name": "_tokenAddress", "type": "address" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "_baseToken", "type": "address" }, { "indexed": false, "name": "_quoteToken", "type": "address" }, { "indexed": false, "name": "_optionAddress", "type": "address" }, { "indexed": true, "name": "_creator", "type": "address" }], "name": "LogOptionCreated", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }], "name": "OwnershipRenounced", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }, { "indexed": true, "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }];
+        const factoryaddress = '0x81afd58f37d88063276ac933bb9b67351621704e';
+        const factoryContract = new web3.eth.Contract(factoryABI, factoryaddress);
+
+        web3.eth.getAccounts((err, address) => {
+            console.log(address[0]);
+            ethAddress = address[0];
+            factoryContract.methods.createNewOption("0x8a2e0dfc9baa42ba1c92dc1f77a5cec7407afa42", "0xb9d22e4f9683cf9fc3f41abb1fb001252438bae8", "50")
+                .send({ from: address[0] }, (err, hash) => {
+                    console.log(err);
+                    console.log(hash)
+                })
+        })
+
+        factoryContract.once('LogOptionCreated', { fromBlock: 0 }, (err, log) => {
+            console.log(err);
+            console.log('call');
+            const optionAddress = log.returnValues[2];
+            console.log(optionAddress);
+            if (optionAddress != this.state.optionAddress) {
+                this.setState({ optionAddress: optionAddress });
+                var tokenFaucetABI = [{ "constant": true, "inputs": [], "name": "name", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "approve", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_amount", "type": "uint256" }, { "name": "_recipient", "type": "address" }], "name": "getTokens", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [{ "name": "", "type": "uint8" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "balance", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }, { "name": "_spender", "type": "address" }], "name": "allowance", "outputs": [{ "name": "remaining", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_to", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_owner", "type": "address" }, { "indexed": true, "name": "_spender", "type": "address" }, { "indexed": false, "name": "_value", "type": "uint256" }], "name": "Approval", "type": "event" }];
+                var faucetAddress = '0xb9d22e4f9683cf9fc3f41abb1fb001252438bae8';
+                const faucetContract = new web3.eth.Contract(tokenFaucetABI, faucetAddress);
+
+                const optionAbi = [{ "constant": false, "inputs": [{ "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "approve", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "isOptionIssued", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getOptionDetails", "outputs": [{ "name": "", "type": "address" }, { "name": "", "type": "address" }, { "name": "", "type": "address" }, { "name": "", "type": "address" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "quoteToken", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transferFrom", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_assetsOffered", "type": "uint256" }, { "name": "_premium", "type": "uint256" }, { "name": "_expiry", "type": "uint256" }], "name": "issueOption", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [{ "name": "", "type": "uint8" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_spender", "type": "address" }, { "name": "_subtractedValue", "type": "uint256" }], "name": "decreaseApproval", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "buyer", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "tokenProxy", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "withdrawTokens", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "optionDumperAddress", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }], "name": "transfer", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_amount", "type": "uint256" }], "name": "tradeOption", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "strikePrice", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "baseToken", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_extraOffering", "type": "uint256" }], "name": "incOffering", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "_spender", "type": "address" }, { "name": "_addedValue", "type": "uint256" }], "name": "increaseApproval", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "_owner", "type": "address" }, { "name": "_spender", "type": "address" }], "name": "allowance", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "premium", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "expiry", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "_amount", "type": "uint256" }], "name": "exerciseOption", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "address" }], "name": "Traders", "outputs": [{ "name": "optionQuantity", "type": "uint256" }, { "name": "status", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [{ "name": "_baseToken", "type": "address" }, { "name": "_quoteToken", "type": "address" }, { "name": "_strikePrice", "type": "uint256" }, { "name": "_buyer", "type": "address" }], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": false, "name": "_optionsIssued", "type": "uint256" }, { "indexed": false, "name": "_expirationTime", "type": "uint256" }, { "indexed": false, "name": "_premium", "type": "uint256" }, { "indexed": false, "name": "_tokenProxy", "type": "address" }], "name": "LogOptionsIssued", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_trader", "type": "address" }, { "indexed": false, "name": "_amount", "type": "uint256" }, { "indexed": false, "name": "_timestamp", "type": "uint256" }], "name": "LogOptionsTrade", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "_trader", "type": "address" }, { "indexed": false, "name": "_amount", "type": "uint256" }, { "indexed": false, "name": "_timestamp", "type": "uint256" }], "name": "LogOptionsExcercised", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "spender", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" }], "name": "Transfer", "type": "event" }];
+                const optionContract = new web3.eth.Contract(optionAbi, optionAddress);
+
+                optionContract.methods.strikePrice().call({ from: ethAddress }, (err, strikePrice) => {
+                    console.log('strike price',strikePrice);
+                    faucetContract.methods.approve(optionAddress, 1000000 * strikePrice).send({ from: ethAddress }, (err, approved) => {
+                        if (approved) {
+                            optionContract.methods.issueOption(10, 5, 4223785)
+                                .send({ from: ethAddress }, (err, hash) => {
+                                    console.log('option issued',hash);
+                                })
+                        }
+                    })
+                })
+
+            }
+        })
+    }  
+
+    window.onload =  trigger();
+    
+  </script>
+
+	<div class="sidenav">
+    <div class="sidenav-content">
+      <h1 style="font-weight:800;font-size:2.3em;padding:0 18%">Eth Options</h1>
+      <ul style="padding:0">
+        <li>
+            <a href="index.html" class="active">Order Book</a>
+        </li>
+        <li>
+            <a href="book.html">Order Fill</a>
+        </li>
+        <li>
+            <a href="history.html">Order History</a>
+        </li>
+      </ul>
+    </div>
+	</div>
+
+	<div class="main">
+    <div class="card" style="margin-top:3%">
+      <div class="card-header blue">
+        <span>ZRX Market Rates</span>
+      </div>
+      <div class="img-div" style=width:100%>
+          <img src="graph1.png"/>
+      </div>
+    </div>
+    <div class="card" style="margin-top:3%;margin-bottom:4%">
+      <div class="card-header orange">
+        <span>Order Book</span>
+      </div>
+      <div class="table-div">
+        <table cellspacing="0">
+          <tr class="header-tr">
+            <th style="border-radius:10px 0 0 0">No. Of Tokens</th>
+            <th>Base Token</th>
+            <th>Quote Token</th>
+            <th>Strike Price</th>
+            <th>Premium</th>
+            <th>Expiry</th>
+            <th style="border-radius:0 10px 0 0">Action</th>
+
+          </tr>
+          <tr>
+            <td>110</td>
+            <td>ZRX</td>
+            <td>WETH</td>
+            <td class="strike">48</td>
+            <td class="premium">10</td>
+            <td>1 day 4 hrs</td>
+            <td class="action-btn">Buy</td>            
+            
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>ZRX</td>
+            <td>WETH</td>
+            <td class="strike">52</td>
+            <td class="premium">12</td>
+            <td>1 day 12 hrs</td>
+            <td class="action-btn">Buy</td>            
+          </tr>
+          <tr>
+            <td>78</td>
+            <td>WETH</td>
+            <td>ZRX</td>
+            <td class="strike">63</td>
+            <td class="premium">15</td>
+            <td>3 days 2 hrs</td>
+            <td class="action-btn">Buy</td>            
+
+          </tr>
+          <tr>
+            <td>107</td>
+            <td>ZRX</td>
+            <td>WETH</td>
+            <td class="strike">45</td>
+            <td class="premium">12</td>
+            <td>4 days 12 hrs</td>
+            <td class="action-btn">Buy</td>            
+
+          </tr>
+          <tr>
+            <td>120</td>
+            <td>WETH</td>
+            <td>ZRX</td>
+            <td class="strike">68</td>
+            <td class="premium">18</td>
+            <td>1 day 7 hrs</td>
+            <td class="action-btn">Buy</td>            
+
+          </tr>
+          <tr>
+            <td>135</td>
+            <td>WETH</td>
+            <td>ZRX</td>
+            <td class="strike">72</td>
+            <td class="premium">9</td>
+            <td>4 days 8 hrs</td>
+            <td class="action-btn">Buy</td>            
+
+          </tr>
+
+        </table>
+      </div>
+    </div>
+
+	</div>
+
+</body>
+
+</html>
