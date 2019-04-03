@@ -57,7 +57,7 @@ app.post('/addVoter', (req, res) => {
     console.log(req.body.hashedString);
     var web3js = new Web3(new Web3.providers.HttpProvider(process.env.RINKEBY));
     var myAddress = process.env.myAddress;
-    console.log("my address",myAddress);
+    console.log("my address", myAddress);
     var voterContract = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
     EmailList.findOne({ email: req.body.email })
         .then(emailfound => {
@@ -233,10 +233,12 @@ app.post('/smsOTP', (req, res) => {
                 }
                 console.log("mobile saved");
             })
-
+        res.send('sent');
     }
     catch (e) {
         console.log("mobile not saved", e);
+        res.send('error');
+        
     }
 })
 

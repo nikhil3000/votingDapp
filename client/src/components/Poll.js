@@ -72,39 +72,38 @@ export default class Poll extends React.Component {
     render() {
         return (
             <div>
-                <div className="card text-center">
-                    <div className="card register">
-                        <div className="card-body">
-                            {this.state.question}
-                            <ul>
-                                {
-
-
-                                    this.state.options && this.state.options.map((option, index) => (
-                                        <div key={index} >
-
-                                            <div className="card register">
-                                                <div className="card-body">
-                                                    <div className="form-group">
-                                                        <div className="row">
-                                                            <label className="control-label col-sm-2">{option}</label>
-                                                            <div className="col-sm-10">
-                                                                <div className="btn btn-primary" onClick={(e) => this.handleClick(this.props.address, index, e)}>Vote</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                    ))
-                                }
-
-                            </ul>
+                <div style={{ marginLeft: '25%' }} className="main">
+                    <div className="card" style={{ marginTop: '3%', marginBottom: '4%' }}>
+                        <div className="card-header orange" style={{ background: '#0d0f1b' }}>
+                            <span>Some suitable heading</span>
                         </div>
+
+                        <table className="table-div table table-striped" cellSpacing="0">
+                            <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td style={{fontSize: '15px', paddingLeft: '2px'}}>{this.state.question}</td>
+
+                                </tr>
+
+
+                                {
+                                    this.state.options && this.state.options.map((option, index) => (
+                                        <tr key={index}>
+                                            <td style={{width:'15px', padding: '15px 7px'}}>{index + 1})</td>
+                                            <td style={{paddingLeft: '2px'}}>{option}</td>
+                                            <td className="action-btn" onClick={(e) => this.handleClick(this.props.address, index, e)}>Vote</td>
+                                        </tr>
+                                    )
+                                    )
+                                }
+                            </tbody>
+                        </table>
+
                     </div>
+
                 </div>
+
             </div>
         )
     }

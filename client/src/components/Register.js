@@ -80,7 +80,12 @@ export default class Register extends React.Component {
         console.log(number);
         axios.post(basURL + 'smsOTP', { number: number })
             .then(response => {
-
+                if (response.data == 'sent') {
+                    this.setState({ smsOTPSent: true });
+                }
+                else if (response.data == 'error') {
+                    console.log('some error occured');
+                }
             })
             .catch(err => {
                 // window.alert('some error occured');
@@ -98,7 +103,7 @@ export default class Register extends React.Component {
         axios.post(basURL + 'checkSMSotp', obj)
             .then(response => {
                 switch (response.data) {
-                    case 'CorrectOTP': this.setState({ number: number});
+                    case 'CorrectOTP': this.setState({ number: number });
                         break;
                     case 'OTPObjNotFound': console.log('resend otp');
                         break;
@@ -122,24 +127,23 @@ export default class Register extends React.Component {
         if (this.state.number && this.state.email) {
             var preHash = this.state.number.toString() + this.state.email.toString() + passkey.toString();
             var hashedString = hash(preHash);
-            axios.post(basURL + 'addVoter', { hashedString: hashedString, email: this.state.email, number: this.state.number }) 
-            .then(response=> {
-                console.log(response);
-                console.log('call back');
-                if(/^0x/.test(response.data))
-                {
-                this.props.history.push('/questionslist');
-                }
-                switch(response.data){
-                    case 'EmailAlreadyExists' : this.setState({emailAlreadyExists:true});
-                        break;
-                    case 'MobileAlreadyExists': this.setState({mobileAlreadyExists: true});
-                        break;
-                    case 'TxError': console.log('transaction error');
-                        break;                   
-                }
+            axios.post(basURL + 'addVoter', { hashedString: hashedString, email: this.state.email, number: this.state.number })
+                .then(response => {
+                    console.log(response);
+                    console.log('call back');
+                    if (/^0x/.test(response.data)) {
+                        this.props.history.push('/questionslist');
+                    }
+                    switch (response.data) {
+                        case 'EmailAlreadyExists': this.setState({ emailAlreadyExists: true });
+                            break;
+                        case 'MobileAlreadyExists': this.setState({ mobileAlreadyExists: true });
+                            break;
+                        case 'TxError': console.log('transaction error');
+                            break;
+                    }
 
-            })
+                })
         }
         else {
             axios.post(basURL + 'addVoter', { hashedString: 'abcdef' }).then(response => {
@@ -154,15 +158,18 @@ export default class Register extends React.Component {
         return (
             <div>
                 {this.state.emailAlreadyExists && <FlashMessage duration={5000}>
-                    <strong>Email already used</strong>
+                    <strong className="peacockColor" style={{marginLeft:'25%'}}>Email already used</strong>
                 </FlashMessage>
                 }
                 {this.state.MobileAlreadyExists && <FlashMessage duration={5000}>
-                    <strong>Mobile number already used</strong>
+                    <strong className="peacockColor" style={{marginLeft:'25%'}}>Mobile number already used</strong>
                 </FlashMessage>
                 }
-                <div className="card register">
-                    <div className="card-body">
+                <div className="main">
+                    <div className="card" style={{ marginTop: '3%' }}>
+                        <div className="card-header blue">
+                            <span>Register</span>
+                        </div>
                         <form>
                             <div className="form-group">
                                 <div htmlFor="email" className="peacockColor">Email</div>
@@ -195,7 +202,7 @@ export default class Register extends React.Component {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="phone" className="peacockColor">Mobile number<i style={{fontWeight:400}}>(with country code)</i>
+                                <label htmlFor="phone" className="peacockColor">Mobile number<i style={{ fontWeight: 400 }}>(with country code)</i>
                                 </label>
                                 <div className="container">
                                     <div className="row">

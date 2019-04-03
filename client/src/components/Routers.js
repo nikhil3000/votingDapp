@@ -13,6 +13,7 @@ import Web3 from 'web3';
 import config from '../../config'
 import PageNotFound from './PageNotFound';
 import { Connect } from 'uport-connect';
+import NavBar from './NavBar';
 export const history = createHistory();
 
 
@@ -30,19 +31,14 @@ export default class Routers extends React.Component {
 
         const connect = new Connect('VotingDapp', {
             network: {
-                id: 4,
+                id: '0x4',
                 rpcUrl: rpcURL
             }
         }
         )
         const provider = connect.getProvider();
         let web3js;
-        if (web3) {
-            web3js = new Web3(web3.currentProvider);
-        }
-        else {
-            web3js = new Web3(provider);
-        }
+        web3js = new Web3(web3.currentProvider || provider);
         console.log(web3js);
         this.setState({ web3: web3js });
         const factoryContractUport = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
@@ -51,6 +47,7 @@ export default class Routers extends React.Component {
     render() {
         return (
             <div>
+                <NavBar />
                 <Router history={history}>
                     <Switch>
                         <Route path="/" component={App} exact={true} />
@@ -64,6 +61,6 @@ export default class Routers extends React.Component {
                 </Router>
             </div>
         );
-        
+
     }
 }
