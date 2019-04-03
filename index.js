@@ -17,6 +17,9 @@ mongoose.connect(config.db.mongoURI, { useNewUrlParser: true })
     .catch(err => console.log('err'));
 
 
+app.use(express.static(path.join(__dirname, "client/public")))
+
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
@@ -41,16 +44,6 @@ const Mobile = mongoose.model('MobileOTP');
 require('./Models/MobileList');
 const MobileList = mongoose.model('MobileList');
 
-
-app.get('/sms', (req, res) => {
-    utils.sendSMS("435782", "+919868954717", res);
-});
-
-app.get('/email', (req, res) => {
-    fs.readFile(__dirname + 'mail.html', 'utf8', function (err, html) {
-        utils.email('nikhilyadav3000@gmail.com', "Welcome to idf");
-    });
-})
 
 app.post('/addVoter', (req, res) => {
 
@@ -152,28 +145,6 @@ app.post('/addVoter', (req, res) => {
     // res.send('abc');
 });
 
-app.get('/getData', (req, res) => {
-    var dummy =
-        [
-            {
-                "question": "Best startup",
-                "count": 5,
-                "options": [
-                    "Abc", "cde", "efg"
-                ]
-            },
-            {
-                "question": "Worst startup",
-                "count": 3,
-                "options": [
-                    "Abc", "cde", "efg"
-                ]
-            }
-        ]
-    res.send(dummy);
-})
-
-
 app.post('/emailOTP', (req, res) => {
     console.log(req.body);
     console.log("else");
@@ -238,7 +209,7 @@ app.post('/smsOTP', (req, res) => {
     catch (e) {
         console.log("mobile not saved", e);
         res.send('error');
-        
+
     }
 })
 
@@ -295,7 +266,12 @@ app.post('/checkSMSotp', (req, res) => {
         })
 })
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "public", "index.html"));
+});
+
 var port = process.env.PORT || 5000;
+
 app.listen(port, () => {
     console.log(`server started at port ${port}`);
 })

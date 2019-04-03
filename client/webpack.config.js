@@ -5,7 +5,7 @@ require("@babel/polyfill");
 module.exports = {
     entry: ['@babel/polyfill','./client/src/app.js'],
     output: {
-        path: path.join(__dirname,'/client/public'),
+        path: path.join(__dirname,'/public'),
         filename: 'bundle.js'
     },
     module: {
@@ -24,7 +24,7 @@ module.exports = {
     },
     devtool: 'cheap-module-eval-source-map',
     devServer: {
-        contentBase: path.join(__dirname,'/client/public'),
+        contentBase: path.join(__dirname,'/public'),
         historyApiFallback: true
     }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import hash from 'object-hash';
+import FlashMessage from 'react-flash-message'
 
 export default class SubmitVote extends React.Component {
 
@@ -40,7 +41,12 @@ export default class SubmitVote extends React.Component {
 
     render() {
         return (
+            
             <div className="main">
+            <FlashMessage duration={2500}>
+                    <strong className="peacockColor" style={{fontWeight:'400'}}>You should have registered to cast your vote</strong>
+                </FlashMessage>
+                }
                 <div className="card" style={{ marginTop: '3%' }}>
                     <div className="card-header blue">
                         <span>Confirm Vote</span>
@@ -80,7 +86,7 @@ export default class SubmitVote extends React.Component {
                                 <div className="row">
                                     <div className="col-sm-10"></div>
                                     <div className="col-sm-2">
-                                        <button className="btn-hollow" onClick={this.submitVote}>Register</button>
+                                        <button className="btn-hollow" onClick={this.submitVote}>Vote</button>
                                     </div>
                                 </div>
                             </div>

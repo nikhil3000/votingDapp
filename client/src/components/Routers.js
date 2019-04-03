@@ -47,7 +47,7 @@ export default class Routers extends React.Component {
     render() {
         return (
             <div>
-                <NavBar />
+                <NavBar history={history}/>
                 <Router history={history}>
                     <Switch>
                         <Route path="/" component={App} exact={true} />

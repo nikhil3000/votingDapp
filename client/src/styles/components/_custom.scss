@@ -6,6 +6,22 @@
     letter-spacing:1px;
 }
 
+.btn-sidebar {
+    border-collapse: collapse;
+    color: #5b65d4;
+    text-align: left;
+    font-size: 0.95em;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+    display: table-cell;
+    cursor: pointer;
+    vertical-align: top;
+    letter-spacing: 2px;
+    border-spacing: 0px;
+    padding: 15px 20px;
+    
+}
+
 .btn-hollow
 {
     margin: 2% 0;

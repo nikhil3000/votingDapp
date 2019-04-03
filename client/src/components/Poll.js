@@ -3,6 +3,7 @@ import React from 'react';
 import Web3 from 'web3';
 import { Connect } from 'uport-connect';
 
+
 export default class Poll extends React.Component {
     constructor(props) {
         super(props);
