@@ -6,7 +6,7 @@ import Poll from './Poll';
 import Register from './Register';
 import SubmitVote from './SubmitVote';
 import QuestionsList from './QuestionsList';
-import createHistory from 'history/createBrowserHistory';
+import {createBrowserHistory} from 'history';
 import Web3Test from './web3';
 import { root } from 'postcss';
 import Web3 from 'web3';
@@ -14,7 +14,7 @@ import config from '../../config'
 import PageNotFound from './PageNotFound';
 import { Connect } from 'uport-connect';
 import NavBar from './NavBar';
-export const history = createHistory();
+export const history = createBrowserHistory();
 
 
 export default class Routers extends React.Component {
