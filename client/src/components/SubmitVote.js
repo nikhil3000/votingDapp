@@ -32,7 +32,6 @@ export default class SubmitVote extends React.Component {
                 pollContractUport.methods.vote(data[1], hashedString)
                     .send({ from: address[0] }, (err, hash) => {
                         console.log(hash);
-
                     })
             })
 

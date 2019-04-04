@@ -1,14 +1,11 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import { Router } from "react-router-dom";
-import App from './App';
 import Poll from './Poll';
 import Register from './Register';
 import SubmitVote from './SubmitVote';
 import QuestionsList from './QuestionsList';
 import {createBrowserHistory} from 'history';
-import Web3Test from './web3';
-import { root } from 'postcss';
 import Web3 from 'web3';
 import config from '../../config'
 import PageNotFound from './PageNotFound';
@@ -50,11 +47,10 @@ export default class Routers extends React.Component {
                 <NavBar history={history}/>
                 <Router history={history}>
                     <Switch>
-                        <Route path="/" component={App} exact={true} />
+                        <Route path="/" exact={true} render={()=> <QuestionsList history={history} factoryContractUport={this.state.factoryContractUport} web3={this.state.web3} />}/>
                         <Route path="/poll/:address" render={(props)=> <Poll history={history} web3={this.state.web3} address={props.match.params.address}/>}/>
                         <Route path="/register" render={()=> <Register history={history} factoryContractUport={this.state.factoryContractUport} />} />
                         <Route path="/submitVote/:data" render={(props)=> <SubmitVote history={history} web3={this.state.web3} data={props.match.params.data} />} />
-                        <Route path="/web3" component={Web3Test}/> 
                         <Route path="/questionslist" render={()=> <QuestionsList history={history} factoryContractUport={this.state.factoryContractUport} web3={this.state.web3} />} />
                         <Route component={PageNotFound}/>
                     </Switch>

@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import hash from 'object-hash';
 import FlashMessage from 'react-flash-message'
-import { connection } from 'mongoose';
 
 
 
@@ -27,8 +26,6 @@ export default class Register extends React.Component {
         }
     }
 
-    componentDidMount() {
-    }
     emailOTP(e) {
         e.preventDefault();
         var email = $("#email")[0].value;

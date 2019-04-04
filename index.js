@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-var request = require("request");
-const fs = require('fs');
+
+
 require('dotenv').config();
 const utils = require('./utils');
 const Web3 = require('web3');

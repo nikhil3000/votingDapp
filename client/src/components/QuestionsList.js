@@ -1,9 +1,6 @@
 import React from 'react';
-import axios from 'axios';
-import Web3 from 'web3';
 import config from '../../config'
-import { Connect } from 'uport-connect';
-// this.props.history.push('/form2');
+
 
 
 export default class QuestionsList extends React.Component {
