@@ -3,7 +3,7 @@ require("@babel/polyfill");
 
 
 module.exports = {
-    entry: ['@babel/polyfill','./client/src/app.js'],
+    entry: ['@babel/polyfill','./src/app.js'],
     output: {
         path: path.join(__dirname,'/public'),
         filename: 'bundle.js'
