@@ -50,8 +50,7 @@ export default class QuestionsList extends React.Component {
         var question = $("#question")[0].value;
         console.log('q;',question);
         this.props.web3.eth.getAccounts((err, address) => {
-            //console.log(address[0]);
-            console.log('get account callback');
+            console.log(address);
             this.props.factoryContractUport.methods.createPoll(question)
                 .send({ from: address[0] }, (err, hash) => {
                     console.log(hash);

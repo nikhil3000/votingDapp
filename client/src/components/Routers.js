@@ -35,7 +35,14 @@ export default class Routers extends React.Component {
         )
         const provider = connect.getProvider();
         let web3js;
-        web3js = new Web3(web3.currentProvider || provider);
+        try{
+        web3js = new Web3(web3.currentProvider);
+        }
+        catch(e)
+        {
+        web3js = new Web3(provider);
+        }
+        // web3js = new Web3(web3.currentProvider || provider);
         console.log(web3js);
         this.setState({ web3: web3js });
         const factoryContractUport = new web3js.eth.Contract(JSON.parse(config.abi.factoryABI), config.contractAddresses.voterFactoryAddress);
