@@ -6,26 +6,25 @@ import config from '../../config'
 export default class QuestionsList extends React.Component {
     constructor(props) {
         super(props);
-
+        this.addQuestion = this.addQuestion.bind(this);
         this.state = {
             data: undefined
         }
     }
     componentDidMount() {
-        var obj = {
-            questionsAddress: undefined,
-            question: undefined
-        }
+        
         var data = [];
         const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
         this.props.factoryContractUport.methods.getPollSize().call({ from: ethAddress }, async (err, num) => {
-            num = 1;
             if (!err) {
                 console.log(num);
                 for (var i = 0; i < num; i++) {
                     var address = await this.props.factoryContractUport.methods.getPollAddList(i).call({ from: ethAddress })
                     console.log(address);
-                    obj.questionsAddress = address;
+                    var obj = {
+                        questionsAddress: address,
+                        question: undefined
+                    }
                     data.push(obj);
                 }
                 console.log(data);
@@ -46,14 +45,29 @@ export default class QuestionsList extends React.Component {
         this.props.history.push('/poll/' + address);
     }
 
+    addQuestion(e) {
+        e.preventDefault();
+        var question = $("#question")[0].value;
+        console.log('q;',question);
+        this.props.web3.eth.getAccounts((err, address) => {
+            //console.log(address[0]);
+            console.log('get account callback');
+            this.props.factoryContractUport.methods.createPoll(question)
+                .send({ from: address[0] }, (err, hash) => {
+                    console.log(hash);
+
+                })
+        })
+    }
+
     render() {
         return (
             <div style={{ marginLeft: '25%' }} className="main">
-                <div className="card" style={{marginTop:'3%',marginBottom:'4%'}}>
+                <div className="card" style={{ marginTop: '3%', marginBottom: '4%' }}>
                     <div className="card-header orange" style={{ background: '#0d0f1b' }}>
                         <span>Polls</span>
                     </div>
-                    
+
                     <table className="table-div table table-striped" cellSpacing="0">
                         <thead>
                             {/* <tr>
@@ -71,9 +85,23 @@ export default class QuestionsList extends React.Component {
                                     </tr>
                                 )
                                 )
+
                             }
                         </tbody>
                     </table>
+                    <div className="form-group">
+                        <form>
+                        <div className="row">
+                        <div className="col-sm-8">
+                            <input type="text" className="form-control" name="question" id="question" placeholder="Add question"></input>
+                            </div>
+                            <div className="col-sm-2">
+                            <button className="btn-hollow-orange" onClick={this.addQuestion}>Add</button>
+                            </div>
+                            
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
 
