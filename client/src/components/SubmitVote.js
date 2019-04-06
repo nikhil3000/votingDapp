@@ -26,15 +26,15 @@ export default class SubmitVote extends React.Component {
             const pollContractUport = new this.props.web3.eth.Contract(pollAbi, data[0]);
             var len;
             const ethAddress = '0xB42E70a3c6dd57003f4bFe7B06E370d21CDA8087';
-            pollContractUport.methods.vote(data[1], hashedString)
-                    .send({ from: ethAddress }, (err, hash) => {
+            this.props.web3.eth.getAccounts((err, address) => {
+                console.log(address[0]);
+                console.log('get account callback');
+                pollContractUport.methods.vote(data[1], hashedString)
+                    .send({ from: address }, (err, hash) => {
                         console.log(hash);
                     })
-            // this.props.web3.eth.getAccounts((err, address) => {
-            //     console.log(address[0]);
-            //     console.log('get account callback');
                 
-            // })
+            })
 
         }
     }
