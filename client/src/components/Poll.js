@@ -75,11 +75,14 @@ export default class Poll extends React.Component {
         console.log('opt;',option);
         this.props.web3.eth.getAccounts((err, address) => {
             //console.log(address[0]);
+            if(err)
+            {
+                console.log('err',err);
+            }
             console.log('get account callback');
             this.state.pollContractUport.methods.addOptions(option)
                 .send({ from: address[0] }, (err, hash) => {
                     console.log(hash);
-
                 })
         })
     }
