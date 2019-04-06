@@ -39,6 +39,10 @@ export default class Routers extends React.Component {
         }
         catch (e) {
             web3js = new Web3(provider);
+            window.alert('Your browser is not Web3 supported. Falling back to Uport.')
+            web3js.eth.getCoinbase((err,address)=>{
+                console.log(address);
+            })
         }
         // web3js = new Web3(web3.currentProvider || provider);
         console.log(web3js);
