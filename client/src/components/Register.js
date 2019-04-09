@@ -6,7 +6,7 @@ import FlashMessage from 'react-flash-message'
 
 
 
-var basURL = 'http://localhost:5000/';
+var basURL;
 export default class Register extends React.Component {
 
     constructor(props) {
@@ -24,6 +24,16 @@ export default class Register extends React.Component {
             emailAlreadyExists: false,
             mobileAlreadyExists: false
         }
+    }
+
+    componentDidMount() {
+        if (process.env.NODE_ENV == "development") {
+            basURL = 'http://localhost:5000/';
+        }
+        else {
+            basURL = 'http://votingdapp.blocumen.com/'
+        }
+        console.log(basURL);
     }
 
     emailOTP(e) {

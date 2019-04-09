@@ -4,8 +4,8 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start-client": "webpack-dev-server --mode=production --host 0.0.0.0 --env.NODE_ENV=production",
-        "build": "webpack -p --env.NODE_ENV=production",
+        "start-client": "webpack-dev-server --mode=development --host 0.0.0.0 --env.NODE_ENV=development",
+        "build": "webpack",
         "dev": "concurrently \"webpack-dev-server\" \"nodemon ./server/index.js\""
     },
     "proxy": "http://localhost:5000",
@@ -49,4 +49,3 @@
         "webpack-cli": "^3.1.2"
     }
 }
-
