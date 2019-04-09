@@ -1,12 +1,31 @@
 const path = require('path');
 require("@babel/polyfill");
-
+var BrotliPlugin = require('brotli-webpack-plugin')
 module.exports = {
     entry: ['@babel/polyfill','./src/app.js'],
     output: {
         path: path.join(__dirname,'/public'),
-        filename: 'bundle.js'
+        filename: '[name].bundle.js'
     },
+    plugins: [
+		new BrotliPlugin({
+			asset: '[path].br[query]',
+			test: /\.(js|css|html|svg)$/,
+			threshold: 10240,
+			minRatio: 0.8
+		})
+	],
+    optimization: {
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all'
+				}
+			}
+		}
+	},
     module: {
         rules : [{
             loader:'babel-loader',
@@ -21,7 +40,6 @@ module.exports = {
             ]
         }]
     },
-    devtool: 'cheap-module-source-map',
     devServer: {
         contentBase: path.join(__dirname,'/public'),
         historyApiFallback: true
