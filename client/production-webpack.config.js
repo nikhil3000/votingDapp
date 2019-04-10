@@ -1,6 +1,7 @@
 const path = require('path');
 require("@babel/polyfill");
 var BrotliPlugin = require('brotli-webpack-plugin')
+var webpack = require('webpack');
 module.exports = {
     entry: ['@babel/polyfill','./src/app.js'],
     output: {
@@ -8,24 +9,26 @@ module.exports = {
         filename: '[name].bundle.js'
     },
     plugins: [
-		new BrotliPlugin({
-			asset: '[path].br[query]',
-			test: /\.(js|css|html|svg)$/,
-			threshold: 10240,
-			minRatio: 0.8
-		})
+	// 	new BrotliPlugin({
+	// 		asset: '[path].br[query]',
+	// 		test: /\.(js|css|html|svg)$/,
+	// 		threshold: 10240,
+	// 		minRatio: 0.8
+    // 	})
+    new webpack.optimize.UglifyJsPlugin(), //minify everything
+    new webpack.optimize.AggressiveMergingPlugin()//Merge chunks 
 	],
-    optimization: {
-		splitChunks: {
-			cacheGroups: {
-				commons: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendors',
-					chunks: 'all'
-				}
-			}
-		}
-	},
+    // optimization: {
+	// 	splitChunks: {
+	// 		cacheGroups: {
+	// 			commons: {
+	// 				test: /[\\/]node_modules[\\/]/,
+	// 				name: 'vendors',
+	// 				chunks: 'all'
+	// 			}
+	// 		}
+	// 	}
+	// },
     module: {
         rules : [{
             loader:'babel-loader',
