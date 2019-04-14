@@ -16,16 +16,17 @@ export default class Register extends React.Component {
         this.SMSOTP = this.SMSOTP.bind(this);
         this.checkSMSOTP = this.checkSMSOTP.bind(this);
         this.registerUser = this.registerUser.bind(this);
+        this.toggleDataNotVerified = this.toggleDataNotVerified.bind(this);
         this.state = {
             email: undefined,
             number: undefined,
             smsOTPSent: false,
             emailOTPSent: false,
             emailAlreadyExists: false,
-            mobileAlreadyExists: false
+            mobileAlreadyExists: false,
+            dataNotVerified:false
         }
     }
-
     componentDidMount() {
         if (process.env.NODE_ENV == "development") {
             basURL = 'http://localhost:5000/';
@@ -127,7 +128,7 @@ export default class Register extends React.Component {
     }
 
     registerUser(e) {
-
+        this.setState({dataNotVerified:false});
         e.preventDefault();
         var passkey = $("#passKey")[0].value;
         console.log(passkey);
@@ -153,10 +154,12 @@ export default class Register extends React.Component {
                 })
         }
         else {
-            axios.post(basURL + 'addVoter', { hashedString: 'abcdef' }).then(response => {
-                console.log("response", response);
-            });
+            this.setState({dataNotVerified:true});
         }
+    }
+
+    toggleDataNotVerified() {
+        
     }
 
 
@@ -168,9 +171,14 @@ export default class Register extends React.Component {
                     <strong className="peacockColor" style={{marginLeft:'25%'}}>Email already used</strong>
                 </FlashMessage>
                 }
-                {this.state.MobileAlreadyExists && <FlashMessage duration={5000}>
+                {this.state.mobileAlreadyExists && <FlashMessage duration={5000}>
                     <strong className="peacockColor" style={{marginLeft:'25%'}}>Mobile number already used</strong>
                 </FlashMessage>
+                }
+                {this.state.dataNotVerified && <FlashMessage duration={5000}>
+                    <strong className="peacockColor" style={{marginLeft:'25%'}}>You need to verify your email and mobile number to register</strong>
+                </FlashMessage>
+        
                 }
                 <div className="main">
                     <div className="card" style={{ marginTop: '3%' }}>
