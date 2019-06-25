@@ -265,6 +265,13 @@ app.post('/checkSMSotp', (req, res) => {
         })
 })
 
+app.post('/submitBSTQuery',(req,res)=>{
+    console.log("submitBSTQuery");
+    var message = req.body.name + '\n' + req.body.email + '\n' + req.body.message; 
+    utils.email('nikhil@blocumen.com',message,'Blocumen Website Query')
+    res.send('message received');
+})
+
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "client", "public", "index.html"));
 });

@@ -40,11 +40,11 @@ exports.sendSMS = function(otp, number){
 }
 
 
-exports.email = function(to,otp ) {
+exports.email = function(to,otp,subject= 'OTP for IDF VotingDapp') {
     var mailOptions = {
         from: 'automated.nikhilyadav3000@gmail.com',
         to: to,
-        subject: 'OTP for IDF VotingDapp',
+        subject: subject,
         text: otp
     };
 
@@ -52,6 +52,7 @@ exports.email = function(to,otp ) {
         if (err) {
             console.log('err');
             console.log(err);
+            console.log(mailOptions);
             return 'err';
         }
         else {
